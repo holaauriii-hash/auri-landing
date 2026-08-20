@@ -187,6 +187,27 @@
   .pie-links{display:flex;gap:1.6rem;font-size:.9rem;flex-wrap:wrap}
   .pie-links a:hover{color:var(--crema)}
 
+  /* ---- animaciones de entrada y micro-interacciones ---- */
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  @keyframes riseMock{from{opacity:0;transform:translateY(30px) scale(.985)}to{opacity:1;transform:none}}
+  @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .hero-anim > *{opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+  .hero-anim > .eyebrow{animation-delay:.05s}
+  .hero-anim > h1{animation-delay:.16s}
+  .hero-anim > .hero-sub{animation-delay:.3s}
+  .hero-anim > .hero-cta{animation-delay:.45s}
+  .hero-anim > .hero-nota{animation-delay:.6s}
+  .hero-mock{opacity:0;animation:riseMock .9s cubic-bezier(.2,.7,.2,1) .35s both}
+  @media (min-width:861px){
+    .hero-mock{animation:riseMock .9s cubic-bezier(.2,.7,.2,1) .35s both, floatY 6.5s ease-in-out 1.5s infinite}
+  }
+  .grid-feat .feat:nth-child(3n+2){transition-delay:.08s}
+  .grid-feat .feat:nth-child(3n){transition-delay:.16s}
+  .grid-rubro .rubro:nth-child(2){transition-delay:.07s}
+  .grid-rubro .rubro:nth-child(3){transition-delay:.14s}
+  .grid-rubro .rubro:nth-child(4){transition-delay:.21s}
+  .grid-precio .plan:nth-child(2){transition-delay:.1s}
+
   /* reveal */
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
   .reveal.visible{opacity:1;transform:none}
@@ -214,6 +235,7 @@
   @media (prefers-reduced-motion:reduce){
     *{scroll-behavior:auto!important}
     .reveal{opacity:1;transform:none;transition:none}
+    .hero-anim > *,.hero-mock{opacity:1!important;animation:none!important}
     .btn,.feat,.rubro{transition:none}
   }
 </style>
@@ -237,7 +259,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="wrap hero-grid">
-    <div class="hero-texto reveal">
+    <div class="hero-texto hero-anim">
       <span class="eyebrow">Claridad que impulsa</span>
       <h1 class="serif">Todo tu negocio,<br><em>en un solo lugar.</em></h1>
       <p class="hero-sub">Auri reúne agenda, cobros, clientes y reportes en un sistema simple, pensado para negocios que trabajan con turnos. Se configura a tu rubro y te devuelve el control de tu día.</p>
@@ -248,7 +270,7 @@
       <div class="hero-nota"><span class="brote"></span> 15 días gratis · sin costo de implementación</div>
     </div>
 
-    <div class="mock reveal" aria-hidden="true">
+    <div class="mock hero-mock" aria-hidden="true">
       <div class="mock-top">
         <span class="titulo">Agenda de hoy</span>
         <span class="fecha">Mar · 20 ago</span>
@@ -449,6 +471,28 @@
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
   }, {threshold:.14});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // count-up de los indicadores del mock
+  const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nums = document.querySelectorAll('.mock-pie .dato b');
+  function countUp(el){
+    const m = el.textContent.trim().match(/^(\d+)(\D*)$/);
+    if(!m) return;
+    const target = parseInt(m[1],10), suf = m[2]||'';
+    if(rm){ el.textContent = target+suf; return; }
+    const dur = 1100, t0 = performance.now();
+    el.textContent = '0'+suf;
+    (function tick(t){
+      const pr = Math.min(1,(t-t0)/dur);
+      el.textContent = Math.round(target*(1-Math.pow(1-pr,3)))+suf;
+      if(pr<1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  const pie = document.querySelector('.mock-pie');
+  if(pie && nums.length){
+    const io2 = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){nums.forEach(countUp);io2.disconnect();}});},{threshold:.4});
+    io2.observe(pie);
+  }
 </script>
 </body>
 </html>
