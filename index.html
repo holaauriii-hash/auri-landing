@@ -7,7 +7,7 @@
 <meta name="description" content="Atención psicológica presencial u online. Solicitá tu agendamiento por WhatsApp y completá tu admisión en pocos pasos." />
 <meta name="theme-color" content="#F6F2E9" />
 <script>document.documentElement.classList.add('js');</script>
-<link rel="icon" href="logo.png" />
+<link rel="icon" href="marca.png" />
 
 <!-- Vista previa al compartir el link (WhatsApp, etc.). og:image necesita ser una URL absoluta. -->
 <meta property="og:type" content="website" />
@@ -87,6 +87,9 @@
   header.pegado{background:rgba(246,242,233,.92);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--linea);padding:.75rem 0}
   .nav{display:flex;align-items:center;justify-content:space-between}
   .marca{display:flex;flex-direction:column;line-height:1.1}
+  .marca-logo{display:flex;align-items:center;gap:.85rem}
+  .marca-logo img{height:46px;width:auto;transition:height .3s ease}
+  header.pegado .marca-logo img{height:38px}
   .marca b{font-weight:300;font-size:1.02rem;letter-spacing:.3em;color:var(--bosque);text-transform:uppercase}
   .marca span{font-weight:500;font-size:.6rem;letter-spacing:.45em;color:var(--ocre-texto);text-transform:uppercase;margin-top:.3rem}
   .nav-links{display:flex;align-items:center;gap:2.2rem}
@@ -96,7 +99,7 @@
   .menu-btn span{width:24px;height:1.5px;background:var(--bosque);transition:.3s}
 
   /* ---------- Hero ---------- */
-  .hero{position:relative;overflow:hidden;padding:9rem 0 4rem;min-height:min(88vh,780px);display:flex;align-items:center}
+  .hero{position:relative;overflow:hidden;padding:8.2rem 0 3.2rem;min-height:min(80vh,700px);display:flex;align-items:center}
   /* La foto ocupa la derecha y se funde con el papel por la izquierda, arriba y abajo */
   .hero-foto{position:absolute;top:0;right:0;bottom:0;width:64%;pointer-events:none;
     -webkit-mask-image:linear-gradient(to right,transparent 0,#000 36%),linear-gradient(to bottom,transparent 0,#000 18%,#000 86%,transparent 100%);
@@ -108,7 +111,9 @@
   .hero-texto{max-width:660px}
   .hero-texto .lugar{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ocre-texto);font-weight:500;margin-bottom:1.5rem}
   .hero h1{margin-bottom:1.5rem;color:var(--bosque);font-size:clamp(2.9rem,6.2vw,5.2rem);line-height:1.02}
-  .hero h1 em{font-style:italic;font-weight:300;color:var(--ocre)}
+  .hero h1 em{position:relative;white-space:nowrap;font-style:italic;font-weight:300;color:var(--ocre)}
+  .subrayado{position:absolute;left:2%;bottom:-.1em;width:96%;height:.16em;overflow:visible;fill:none;stroke:var(--ocre);stroke-width:2;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.75}
+  .subrayado path{stroke-dasharray:1;stroke-dashoffset:0}
   .hero-sub{font-family:var(--serif);font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.5;color:var(--tinta);max-width:33ch;margin-bottom:2.2rem}
   .hero-cta{display:flex;gap:1rem 1.4rem;align-items:center;flex-wrap:wrap;margin-bottom:2.6rem}
   .confianza{list-style:none;display:flex;flex-wrap:nowrap}
@@ -137,7 +142,9 @@
   @keyframes crece{from{opacity:0;transform:scale(.35) rotate(-6deg)}to{opacity:1;transform:none}}
 
   /* Entrada del hero, una sola secuencia: la foto aparece, luego el texto en orden. */
-  .hero-foto img{animation:fotoEntra 2s cubic-bezier(.2,.7,.2,1) backwards}
+  .hero-foto img{animation:fotoEntra 2s cubic-bezier(.2,.7,.2,1) backwards,respiro 28s ease-in-out 2s infinite alternate}
+  .marca-logo img{animation:vuela 1.5s cubic-bezier(.2,.8,.2,1) .05s backwards}
+  .subrayado path{animation:dibuja 1.4s cubic-bezier(.4,0,.2,1) 1.7s backwards}
   .hero-texto .lugar{animation:textoEntra 1s .25s ease backwards}
   .hero h1{animation:tituloEntra 1.5s .4s cubic-bezier(.2,.7,.2,1) backwards}
   .hero-sub{animation:textoEntra 1s .95s ease backwards}
@@ -146,6 +153,9 @@
   @keyframes fotoEntra{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
   @keyframes tituloEntra{from{opacity:0;letter-spacing:.022em;transform:translateY(12px)}to{opacity:1;letter-spacing:-.012em;transform:none}}
   @keyframes textoEntra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes respiro{from{transform:scale(1) translateX(0)}to{transform:scale(1.045) translateX(-1.2%)}}
+  @keyframes vuela{0%{opacity:0;transform:translate(-22px,16px) rotate(-14deg) scale(.7)}60%{opacity:1}100%{opacity:1;transform:none}}
+  @keyframes dibuja{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
   @keyframes mece{from{transform:rotate(-1.4deg)}to{transform:rotate(1.6deg)}}
 
   /* ---------- Datos de atención ---------- */
@@ -273,7 +283,7 @@
   }
   @media (prefers-reduced-motion:reduce){
     *{scroll-behavior:auto!important}
-    .hero-foto img,.hero-texto .lugar,.hero h1,.hero-sub,.hero-cta,.confianza,.js .etapas.visto .brote,.js .etapas.visto .brote .crece{animation:none!important}
+    .hero-foto img,.marca-logo img,.subrayado path,.hero-texto .lugar,.hero h1,.hero-sub,.hero-cta,.confianza,.js .etapas.visto .brote,.js .etapas.visto .brote .crece{animation:none!important}
     .js .brote .crece{opacity:1}
     .btn,header,.nav-links,.enlace-sub{transition:none}
     .btn:hover{transform:none;box-shadow:none}
@@ -300,7 +310,7 @@
 <!-- NAV -->
 <header id="cab">
   <nav class="nav wrap">
-    <a href="#" class="marca" aria-label="Patricia Chena, Psicóloga"><b>Patricia Chena</b><span>Psicóloga</span></a>
+    <a href="#" class="marca-logo" aria-label="Patricia Chena, Psicóloga"><img src="marca.png" alt="" width="52" height="47" /><div class="marca"><b>Patricia Chena</b><span>Psicóloga</span></div></a>
     <div class="nav-links" id="navLinks">
       <a class="enlace" href="#pasos">Cómo empezar</a>
       <a class="enlace" href="#antes">Antes de escribir</a>
@@ -317,7 +327,7 @@
   <div class="wrap hero-grid">
     <div class="hero-texto">
       <p class="lugar">Psicoterapia basada en evidencia</p>
-      <h1>Un espacio<br>para tu <em>bienestar.</em></h1>
+      <h1>Un espacio<br>para tu <em>bienestar.<svg class="subrayado" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9C70 3 150 13 297 5" pathLength="1"/></svg></em></h1>
       <p class="hero-sub">Te acompaño en tu proceso de cambio desde un enfoque científico, cercano y personalizado.</p>
       <div class="hero-cta">
         <a class="btn btn-bosque" data-wa href="#contacto">Solicitar agendamiento por WhatsApp</a>
@@ -574,7 +584,7 @@
   } else {
     var vigia = new IntersectionObserver(function(entradas){
       entradas.forEach(function(e){ if(e.isIntersecting){ mostrar(e.target); vigia.unobserve(e.target); } });
-    }, {threshold: 0.3});
+    }, {threshold: 0.2});
     porVer.forEach(function(el){ vigia.observe(el); });
     setTimeout(function(){ porVer.forEach(mostrar); }, 12000); // por si el observador no llegara a disparar
   }
