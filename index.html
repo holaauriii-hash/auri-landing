@@ -4,18 +4,19 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Psic. Patricia Chena | Psicología en Minga Guazú</title>
-<meta name="description" content="Atención psicológica presencial u online. Pedí tu turno por WhatsApp y completá tu admisión en pocos pasos." />
+<meta name="description" content="Atención psicológica presencial u online. Solicitá tu agendamiento por WhatsApp y completá tu admisión en pocos pasos." />
 <meta name="theme-color" content="#F6F2E9" />
+<script>document.documentElement.classList.add('js');</script>
 <link rel="icon" href="logo.png" />
 
 <!-- Vista previa al compartir el link (WhatsApp, etc.). og:image necesita ser una URL absoluta. -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Psic. Patricia Chena | Psicología" />
-<meta property="og:description" content="Atención psicológica presencial u online. Pedí tu turno por WhatsApp y completá tu admisión en pocos pasos." />
+<meta property="og:description" content="Atención psicológica presencial u online. Solicitá tu agendamiento por WhatsApp y completá tu admisión en pocos pasos." />
 <meta property="og:image" content="https://core-1ut.pages.dev/logo.png" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Psic. Patricia Chena | Psicología" />
-<meta name="twitter:description" content="Atención psicológica presencial u online. Pedí tu turno por WhatsApp y completá tu admisión en pocos pasos." />
+<meta name="twitter:description" content="Atención psicológica presencial u online. Solicitá tu agendamiento por WhatsApp y completá tu admisión en pocos pasos." />
 <meta name="twitter:image" content="https://core-1ut.pages.dev/logo.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,15 +58,16 @@
   p{color:var(--tinta-suave);max-width:60ch}
 
   /* ---------- Botones ---------- */
-  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;font-size:.95rem;letter-spacing:.02em;padding:.95rem 1.9rem;border-radius:999px;border:1px solid transparent;background:transparent;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease}
+  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;font-size:.95rem;letter-spacing:.02em;padding:.95rem 1.9rem;border-radius:999px;border:1px solid transparent;background:transparent;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease,transform .25s ease,box-shadow .25s ease}
+  .btn:active{transform:none!important}
   .btn-bosque{background:var(--bosque);color:var(--papel)}
-  .btn-bosque:hover{background:var(--hoja)}
+  .btn-bosque:hover{background:var(--hoja);transform:translateY(-2px);box-shadow:0 16px 26px -16px rgba(15,47,34,.65)}
   .btn-arena{background:var(--arena);color:var(--bosque-hondo)}
-  .btn-arena:hover{background:#E0C3A3}
+  .btn-arena:hover{background:#E0C3A3;transform:translateY(-2px);box-shadow:0 16px 28px -16px rgba(0,0,0,.55)}
   .btn-contorno{border-color:var(--bosque);color:var(--bosque)}
   .btn-contorno:hover{background:var(--bosque);color:var(--papel)}
-  .enlace-sub{font-weight:500;font-size:.95rem;color:var(--bosque);border-bottom:1px solid var(--ocre);padding-bottom:2px;transition:color .2s}
-  .enlace-sub:hover{color:var(--ocre-texto)}
+  .enlace-sub{font-weight:500;font-size:.95rem;color:var(--bosque);padding-bottom:3px;background:linear-gradient(var(--ocre),var(--ocre)) 0 100%/38% 1px no-repeat;transition:color .2s,background-size .4s ease}
+  .enlace-sub:hover{color:var(--ocre-texto);background-size:100% 1px}
   .btn-claro{border-color:rgba(210,174,138,.7);color:var(--papel)}
   .btn-claro:hover{background:rgba(210,174,138,.18);border-color:var(--arena)}
   [hidden]{display:none!important}
@@ -94,27 +96,57 @@
   .menu-btn span{width:24px;height:1.5px;background:var(--bosque);transition:.3s}
 
   /* ---------- Hero ---------- */
-  .hero{position:relative;overflow:hidden;padding:9.5rem 0 5.5rem}
-  .hero::before{content:"";position:absolute;right:-10%;top:-15%;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(210,174,138,.28),transparent 66%);pointer-events:none}
-  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:center;position:relative}
-  .hero-texto .lugar{font-size:.95rem;color:var(--ocre-texto);font-weight:500;margin-bottom:1.4rem;display:flex;align-items:center;gap:.8rem}
-  .hero-texto .lugar::before{content:"";width:34px;height:1px;background:var(--ocre)}
-  .hero h1{margin-bottom:1.5rem;color:var(--bosque)}
-  .hero-sub{font-size:1.15rem;max-width:34ch;margin-bottom:2.3rem}
-  .hero-cta{display:flex;gap:1.6rem;align-items:center;flex-wrap:wrap}
+  .hero{position:relative;overflow:hidden;padding:9rem 0 4rem;min-height:min(88vh,780px);display:flex;align-items:center}
+  /* La foto ocupa la derecha y se funde con el papel por la izquierda, arriba y abajo */
+  .hero-foto{position:absolute;top:0;right:0;bottom:0;width:64%;pointer-events:none;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 36%),linear-gradient(to bottom,transparent 0,#000 18%,#000 86%,transparent 100%);
+    -webkit-mask-composite:source-in;
+    mask-image:linear-gradient(to right,transparent 0,#000 36%),linear-gradient(to bottom,transparent 0,#000 18%,#000 86%,transparent 100%);
+    mask-composite:intersect}
+  .hero-foto img{width:100%;height:100%;object-fit:cover;object-position:35% 55%}
+  .hero-grid{position:relative;z-index:2}
+  .hero-texto{max-width:660px}
+  .hero-texto .lugar{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ocre-texto);font-weight:500;margin-bottom:1.5rem}
+  .hero h1{margin-bottom:1.5rem;color:var(--bosque);font-size:clamp(2.9rem,6.2vw,5.2rem);line-height:1.02}
+  .hero h1 em{font-style:italic;font-weight:300;color:var(--ocre)}
+  .hero-sub{font-family:var(--serif);font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.5;color:var(--tinta);max-width:33ch;margin-bottom:2.2rem}
+  .hero-cta{display:flex;gap:1rem 1.4rem;align-items:center;flex-wrap:wrap;margin-bottom:2.6rem}
+  .confianza{list-style:none;display:flex;flex-wrap:nowrap}
+  .confianza li{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:.7rem;font-size:.82rem;line-height:1.3;color:var(--tinta);padding:0 1.1rem;border-left:1px solid var(--linea)}
+  .confianza li:first-child{padding-left:0;border-left:none}
+  .confianza svg{flex:none;width:27px;height:27px;stroke:var(--bosque);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 
-  /* El arco: marco del logo, como un umbral */
-  .arco-caja{position:relative;width:min(100%,400px);margin:0 auto;padding:0 0 1.6rem}
-  .arco{position:relative;aspect-ratio:3/4;border-radius:999px 999px 14px 14px;background:linear-gradient(180deg,var(--blanco),var(--papel-hondo));box-shadow:0 40px 70px -40px rgba(15,47,34,.55);display:flex;align-items:flex-start;justify-content:center;padding-top:30%}
-  .arco::before{content:"";position:absolute;inset:-16px;border:1px solid var(--ocre);border-radius:999px 999px 20px 20px;opacity:.7;pointer-events:none}
-  .arco img{width:84%;mix-blend-mode:multiply;position:relative;z-index:2}
-  .brote{position:absolute;left:-68px;bottom:-26px;width:250px;height:auto;overflow:visible;z-index:1;pointer-events:none}
-  .brote .crece{transform-box:fill-box;transform-origin:50% 100%;animation:crece 1.6s cubic-bezier(.2,.7,.2,1) both}
-  .brote .c1{animation-delay:.3s}
-  .brote .c2{animation-delay:.5s}
-  .brote .c3{animation-delay:.7s}
-  .brote .c4{animation-delay:.9s}
+  /* Franja de etapas bajo el hero, con el brote del logo creciendo a la izquierda */
+  .etapas{position:relative;overflow:hidden;background:var(--papel-hondo);border-top:1px solid var(--linea)}
+  .etapas .wrap{position:relative;z-index:2;padding-left:clamp(0px,15vw,210px)}
+  .etapas ol{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .etapas li{padding:2rem 1.6rem 2.2rem;border-left:1px solid var(--linea)}
+  .etapas li:first-child{border-left:none;padding-left:0}
+  .etapas .num{display:block;font-size:.78rem;font-weight:500;letter-spacing:.06em;color:var(--ocre-texto);margin-bottom:.3rem}
+  .etapas h3{font-size:1.45rem;color:var(--bosque);margin-bottom:.3rem}
+  .etapas p{font-size:.92rem;max-width:26ch}
+  .brote{position:absolute;left:-34px;bottom:-34px;width:230px;height:auto;overflow:visible;z-index:1;pointer-events:none;transform-origin:24% 96%}
+  .brote .crece{transform-box:fill-box;transform-origin:50% 100%}
+  .js .brote .crece{opacity:0}
+  .js .etapas.visto .brote .crece{animation:crece 1.6s cubic-bezier(.2,.7,.2,1) both}
+  .js .etapas.visto .brote .c1{animation-delay:.1s}
+  .js .etapas.visto .brote .c2{animation-delay:.3s}
+  .js .etapas.visto .brote .c3{animation-delay:.5s}
+  .js .etapas.visto .brote .c4{animation-delay:.7s}
+  .js .etapas.visto .brote{animation:mece 11s ease-in-out 2.6s infinite alternate}
   @keyframes crece{from{opacity:0;transform:scale(.35) rotate(-6deg)}to{opacity:1;transform:none}}
+
+  /* Entrada del hero, una sola secuencia: la foto aparece, luego el texto en orden. */
+  .hero-foto img{animation:fotoEntra 2s cubic-bezier(.2,.7,.2,1) backwards}
+  .hero-texto .lugar{animation:textoEntra 1s .25s ease backwards}
+  .hero h1{animation:tituloEntra 1.5s .4s cubic-bezier(.2,.7,.2,1) backwards}
+  .hero-sub{animation:textoEntra 1s .95s ease backwards}
+  .hero-cta{animation:textoEntra 1s 1.15s ease backwards}
+  .confianza{animation:textoEntra 1s 1.4s ease backwards}
+  @keyframes fotoEntra{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+  @keyframes tituloEntra{from{opacity:0;letter-spacing:.022em;transform:translateY(12px)}to{opacity:1;letter-spacing:-.012em;transform:none}}
+  @keyframes textoEntra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes mece{from{transform:rotate(-1.4deg)}to{transform:rotate(1.6deg)}}
 
   /* ---------- Datos de atención ---------- */
   .datos{background:var(--bosque);color:var(--papel)}
@@ -144,9 +176,27 @@
   .linea-tiempo .n{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;border:1px solid var(--arena);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.25rem;color:var(--arena);background:var(--bosque)}
   .linea-tiempo h3{color:var(--papel);margin-bottom:.35rem;padding-top:.15rem}
   .linea-tiempo p{font-size:.98rem}
+  /* La línea se dibuja paso a paso al llegar a esta parte (el orden importa acá). */
+  .js .linea-tiempo li::before{transform:scaleY(0);transform-origin:top;transition:transform .6s cubic-bezier(.4,0,.2,1) calc(var(--i,0)*.8s + .3s)}
+  .js .linea-tiempo.visto li::before{transform:none}
+  .js .linea-tiempo .n{transition:background .5s ease calc(var(--i,0)*.8s),color .5s ease calc(var(--i,0)*.8s)}
+  .js .linea-tiempo.visto .n{background:var(--arena);color:var(--bosque-hondo)}
+  .js .linea-tiempo li h3,.js .linea-tiempo li p{opacity:.28;transition:opacity .8s ease calc(var(--i,0)*.8s)}
+  .js .linea-tiempo.visto li h3,.js .linea-tiempo.visto li p{opacity:1}
   .hoja-fondo{position:absolute;pointer-events:none;opacity:.07;fill:var(--arena)}
   .hoja-fondo.a{width:300px;right:-60px;bottom:-90px;transform:rotate(28deg)}
   .hoja-fondo.b{width:210px;right:150px;bottom:-130px;transform:rotate(-14deg);opacity:.05}
+
+  /* El espacio: fotos del consultorio con la silueta del arco del logo (solo se muestra si hay fotos) */
+  .espacio{background:var(--papel-hondo)}
+  .espacio .cabecera{margin-bottom:2.8rem}
+  .espacio .cabecera p{margin-top:1rem}
+  .espacio-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.8rem;align-items:end}
+  .espacio-grid figure{margin:0}
+  .espacio-grid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:999px 999px 14px 14px;box-shadow:0 30px 50px -34px rgba(15,47,34,.55);background:var(--salvia-claro)}
+  .espacio-grid.n3 figure:nth-child(2){margin-bottom:2.4rem}
+  .espacio-grid.n1{grid-template-columns:minmax(0,360px)}
+  .espacio-grid.n2{grid-template-columns:repeat(2,minmax(0,360px))}
 
   /* Antes de escribir */
   .antes-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
@@ -158,6 +208,11 @@
   .urgencia svg{flex:none;width:26px;height:26px;stroke:var(--ocre);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;margin-top:.15rem}
   .urgencia p{color:var(--tinta);font-size:.97rem;max-width:72ch}
   .urgencia b{font-weight:500;color:var(--bosque)}
+  /* Los íconos se trazan una sola vez al aparecer */
+  .js .dibuja{opacity:0}
+  .js .dibuja *{stroke-dasharray:1;stroke-dashoffset:1}
+  .js .visto .dibuja{opacity:1}
+  .js .visto .dibuja *{stroke-dashoffset:0;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)}
 
   /* Cierre */
   .cierre{background:linear-gradient(180deg,var(--hoja),var(--bosque));color:var(--papel);text-align:center;position:relative;overflow:hidden;padding:7rem 0}
@@ -179,10 +234,21 @@
   .pie-links a:hover{color:var(--papel)}
 
   @media (max-width:860px){
-    .hero{padding:8rem 0 4.5rem}
-    .hero-grid{grid-template-columns:1fr;gap:3.2rem}
-    .arco-caja{width:min(82vw,340px)}
-    .brote{left:-22px;width:190px}
+    .hero{display:flex;flex-direction:column;align-items:stretch;padding:7.5rem 0 0;min-height:0}
+    .hero-grid{order:1}
+    .hero-foto{order:2;position:relative;width:100%;height:340px;margin-top:1.6rem;
+      -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 24%,#000 88%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 24%,#000 88%,transparent 100%);
+      -webkit-mask-composite:source-over;mask-composite:add}
+    .hero-cta{margin-bottom:2rem}
+    .confianza{flex-direction:column;gap:.9rem}
+    .confianza li{flex:none;padding:0;border-left:none}
+    .etapas .wrap{padding-left:0}
+    .etapas ol{grid-template-columns:1fr 1fr}
+    .etapas li,.etapas li:first-child{padding:1.5rem 1rem;border-left:none;border-top:1px solid var(--linea)}
+    .etapas li:nth-child(-n+2){border-top:none}
+    .etapas li:nth-child(even){border-left:1px solid var(--linea)}
+    .etapas li:nth-child(odd){padding-left:0}
+    .brote{display:none}
     .pasos-grid{grid-template-columns:1fr;gap:2.8rem}
     .antes-grid{grid-template-columns:1fr;gap:2.4rem}
     .antes-col,.antes-col + .antes-col{padding:0;border-left:none}
@@ -191,8 +257,11 @@
     .datos dl{grid-template-columns:1fr 1fr}
     .datos .item{padding:1.3rem 1rem}
     .datos .item:nth-child(odd){border-left:none;padding-left:0}
-    .nav-links{position:fixed;top:0;right:0;height:100vh;width:min(78vw,320px);background:var(--papel);flex-direction:column;justify-content:center;gap:1.8rem;transform:translateX(100%);transition:transform .35s ease;box-shadow:-20px 0 50px -30px rgba(15,47,34,.5);z-index:60}
-    .nav-links.abierto{transform:none}
+    .datos .item:last-child:nth-child(odd){grid-column:1/-1}
+    .espacio-grid,.espacio-grid.n2,.espacio-grid.n1{grid-template-columns:minmax(0,300px);justify-content:center;gap:2rem}
+    .espacio-grid.n3 figure:nth-child(2){margin-bottom:0}
+    .nav-links{position:fixed;top:0;right:0;height:100vh;width:min(78vw,320px);background:var(--papel);flex-direction:column;justify-content:center;gap:1.8rem;transform:translateX(100%);transition:transform .35s ease,box-shadow .35s ease;z-index:60}
+    .nav-links.abierto{transform:none;box-shadow:-20px 0 50px -30px rgba(15,47,34,.5)}
     .menu-btn{display:flex;z-index:70}
     .menu-btn.x span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
     .menu-btn.x span:nth-child(2){opacity:0}
@@ -204,8 +273,15 @@
   }
   @media (prefers-reduced-motion:reduce){
     *{scroll-behavior:auto!important}
-    .brote .crece{animation:none}
-    .btn,header,.nav-links{transition:none}
+    .hero-foto img,.hero-texto .lugar,.hero h1,.hero-sub,.hero-cta,.confianza,.js .etapas.visto .brote,.js .etapas.visto .brote .crece{animation:none!important}
+    .js .brote .crece{opacity:1}
+    .btn,header,.nav-links,.enlace-sub{transition:none}
+    .btn:hover{transform:none;box-shadow:none}
+    .js .linea-tiempo li::before{transform:none;transition:none}
+    .js .linea-tiempo .n{background:var(--arena);color:var(--bosque-hondo);transition:none}
+    .js .linea-tiempo li h3,.js .linea-tiempo li p{opacity:1;transition:none}
+    .js .dibuja{opacity:1}
+    .js .dibuja *{stroke-dashoffset:0;transition:none}
   }
 </style>
 </head>
@@ -237,29 +313,41 @@
 <main>
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-foto" aria-hidden="true"><img src="espacio-hero.jpg" alt="" width="897" height="653" fetchpriority="high" /></div>
   <div class="wrap hero-grid">
     <div class="hero-texto">
-      <p class="lugar">Psicología en Minga Guazú</p>
-      <h1>Atención psicológica con calidez y claridad.</h1>
-      <p class="hero-sub">Sesiones presenciales y online. Solicitá tu agendamiento y completá tu admisión en pocos pasos.</p>
+      <p class="lugar">Psicoterapia basada en evidencia</p>
+      <h1>Un espacio<br>para tu <em>bienestar.</em></h1>
+      <p class="hero-sub">Te acompaño en tu proceso de cambio desde un enfoque científico, cercano y personalizado.</p>
       <div class="hero-cta">
         <a class="btn btn-bosque" data-wa href="#contacto">Solicitar agendamiento por WhatsApp</a>
         <button type="button" class="btn btn-contorno" data-admision hidden>Completar mi admisión</button>
         <a class="enlace-sub" href="#pasos">Cómo funciona</a>
       </div>
+      <ul class="confianza">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>Enfoque basado en evidencia</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/></svg>Acompañamiento personalizado</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Un espacio seguro, empático y sin juicios</li>
+      </ul>
     </div>
+  </div>
+</section>
 
-    <div class="arco-caja">
-      <svg class="brote" viewBox="0 0 320 380" aria-hidden="true" focusable="false">
-        <g transform="translate(70 372) rotate(-42) scale(.5)"><g class="crece c4"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#C9D3C3"/></g></g>
-        <g transform="translate(70 372) rotate(50) scale(.62)"><g class="crece c3"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#D2AE8A"/></g></g>
-        <g transform="translate(70 372) rotate(22) scale(.85)"><g class="crece c2"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#728A72"/></g></g>
-        <g transform="translate(70 372) rotate(-12)"><g class="crece c1"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#1E422A"/></g></g>
-      </svg>
-      <div class="arco">
-        <img src="logo.png" alt="Logo de Patricia Chena, Psicóloga" />
-      </div>
-    </div>
+<!-- ETAPAS DEL ACOMPAÑAMIENTO -->
+<section class="etapas" data-v aria-label="Cómo es el acompañamiento">
+  <svg class="brote" viewBox="0 0 320 380" aria-hidden="true" focusable="false">
+    <g transform="translate(70 372) rotate(-42) scale(.5)"><g class="crece c4"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#728A72"/></g></g>
+    <g transform="translate(70 372) rotate(50) scale(.62)"><g class="crece c3"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#728A72"/></g></g>
+    <g transform="translate(70 372) rotate(22) scale(.85)"><g class="crece c2"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#728A72"/></g></g>
+    <g transform="translate(70 372) rotate(-12)"><g class="crece c1"><use href="#hoja" x="-60" y="-300" width="120" height="300" fill="#1E422A"/></g></g>
+  </svg>
+  <div class="wrap">
+    <ol>
+      <li><span class="num">01</span><h3>Comprender</h3><p>Entendemos tu historia y tus objetivos.</p></li>
+      <li><span class="num">02</span><h3>Acompañar</h3><p>Trabajamos en conjunto en un plan terapéutico.</p></li>
+      <li><span class="num">03</span><h3>Transformar</h3><p>Desarrollás herramientas para tu día a día.</p></li>
+      <li><span class="num">04</span><h3>Vivir mejor</h3><p>Construís una vida más alineada con lo que es importante para vos.</p></li>
+    </ol>
   </div>
 </section>
 
@@ -284,9 +372,20 @@
     </div>
     <ol class="linea-tiempo">
       <li><span class="n">1</span><h3>Solicitás tu agendamiento</h3><p>Escribime por WhatsApp para consultar horarios y honorarios, o completá tu admisión directamente desde esta página.</p></li>
-      <li><span class="n">2</span><h3>Completás tu admisión</h3><p>En un formulario privado contás tus datos y el motivo de consulta, y firmás el consentimiento informado.</p></li>
-      <li><span class="n">3</span><h3>Coordinamos tu primera sesión</h3><p>Reviso tu admisión, te confirmo el horario y la modalidad, presencial u online, y recibís la confirmación de tu turno.</p></li>
+      <li><span class="n">2</span><h3>Completás tu admisión</h3><p>En un formulario privado me contás tus datos y el motivo de consulta. El consentimiento informado te lo envío aparte, una vez revisada tu admisión.</p></li>
+      <li><span class="n">3</span><h3>Coordinamos tu primera sesión</h3><p>Reviso tu admisión y te confirmo el horario y la modalidad, presencial u online, para que llegues a tu primera sesión sabiendo qué esperar.</p></li>
     </ol>
+  </div>
+</section>
+
+<!-- EL ESPACIO (se muestra solo si DATOS.fotos tiene imágenes) -->
+<section id="espacio" class="seccion espacio" hidden>
+  <div class="wrap">
+    <div class="cabecera">
+      <h2>Un lugar para hablar con calma.</h2>
+      <p>Así es el espacio de atención presencial.</p>
+    </div>
+    <div class="espacio-grid" id="espacioGrid"></div>
   </div>
 </section>
 
@@ -295,19 +394,19 @@
   <div class="wrap">
     <div class="cabecera"><h2>Antes de escribir, dos cosas importantes.</h2></div>
     <div class="antes-grid">
-      <div class="antes-col">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      <div class="antes-col" data-v>
+        <svg class="dibuja" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
         <h3>Este WhatsApp es para agendar</h3>
         <p>Sirve para consultar horarios y honorarios, solicitar tu agendamiento y recibir el formulario de admisión. Lo que quieras trabajar sobre tu situación lo hablamos en sesión, no por mensaje.</p>
       </div>
-      <div class="antes-col">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <div class="antes-col" data-v>
+        <svg class="dibuja" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
         <h3>Tu información es confidencial</h3>
         <p>Lo que completes en la admisión queda bajo secreto profesional y solo lo utilizo para tu atención.</p>
       </div>
     </div>
-    <div class="urgencia">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9.5 17h-19L12 3z"/><path d="M12 10v4M12 17.2v.1"/></svg>
+    <div class="urgencia" data-v>
+      <svg class="dibuja" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9.5 17h-19L12 3z"/><path d="M12 10v4M12 17.2v.1"/></svg>
       <p><b>¿Es una urgencia?</b> Este medio no es para emergencias y puede que no te responda de inmediato. Si estás atravesando una crisis o hay riesgo para tu vida o la de otra persona, llamá al 911 o acudí al servicio de urgencias más cercano.</p>
     </div>
   </div>
@@ -362,7 +461,8 @@
     // Tomé el mismo número que usa la agenda pública del sistema; cambialo por el número nuevo.
     whatsapp: '595986426812',
     mensaje:  'Hola, quiero solicitar un agendamiento.',
-    horarios: '',     // ej: 'Lunes a viernes, 8:00 a 18:00'
+    horarios: 'Con cita previa, coordinada por WhatsApp',   // si querés mostrar días y horas: 'Lunes a viernes, 8:00 a 18:00'
+    fotos: [],        // fotos del consultorio, junto a index.html. ej: ['consultorio-1.jpg', 'consultorio-2.jpg', 'consultorio-3.jpg']
     honorarios: '',   // ej: 'Gs 150.000 por sesión'
 
     // Botón "Completar mi admisión". Mientras estos dos estén vacíos, el botón no se muestra.
@@ -387,6 +487,20 @@
   }
   dato('Horarios', DATOS.horarios);
   dato('Honorarios', DATOS.honorarios);
+
+  // Fotos del consultorio (la sección queda oculta si no hay)
+  if(DATOS.fotos && DATOS.fotos.length){
+    var gridFotos = document.getElementById('espacioGrid');
+    var lista = DATOS.fotos.slice(0, 6);
+    lista.forEach(function(src){
+      var f = document.createElement('figure');
+      var im = document.createElement('img');
+      im.src = src; im.alt = 'Consultorio de Patricia Chena'; im.loading = 'lazy'; im.decoding = 'async';
+      f.appendChild(im); gridFotos.appendChild(f);
+    });
+    gridFotos.classList.add('n' + Math.min(lista.length, 4));
+    document.getElementById('espacio').hidden = false;
+  }
 
   // ── Completar mi admisión: Turnstile → función → formulario ──
   var admisionActiva = !!(DATOS.admisionFuncion && DATOS.turnstileSitekey);
@@ -447,6 +561,22 @@
       });
     });
     document.getElementById('adm-cerrar').addEventListener('click', function(){ dlg.close(); });
+  }
+
+  // Entradas al llegar a cada parte (una sola vez). Sin JS o con "reducir movimiento" todo se ve de entrada.
+  document.querySelectorAll('.dibuja *').forEach(function(e){ e.setAttribute('pathLength', '1'); });
+  document.querySelectorAll('.linea-tiempo li').forEach(function(li, i){ li.style.setProperty('--i', i); });
+  var porVer = document.querySelectorAll('.linea-tiempo, [data-v]');
+  var mostrar = function(el){ el.classList.add('visto'); };
+  var reducir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reducir || !('IntersectionObserver' in window)){
+    porVer.forEach(mostrar);
+  } else {
+    var vigia = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){ if(e.isIntersecting){ mostrar(e.target); vigia.unobserve(e.target); } });
+    }, {threshold: 0.3});
+    porVer.forEach(function(el){ vigia.observe(el); });
+    setTimeout(function(){ porVer.forEach(mostrar); }, 12000); // por si el observador no llegara a disparar
   }
 
   // Header al hacer scroll
