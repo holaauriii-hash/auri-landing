@@ -340,6 +340,25 @@
   .cierre-nota{margin-top:1.5rem;font-size:.85rem;color:var(--salvia)}
   .cierre-cta{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
   .cierre .arco-deco{position:absolute;left:94%;top:14%;width:330px;aspect-ratio:3/4;transform:translateX(-50%);border:1px solid rgba(210,174,138,.28);border-radius:999px 999px 20px 20px;pointer-events:none}
+
+  /* Entradas del final: preguntas y cierre */
+  .cierre .hoja-fondo.a{right:-40px;bottom:-110px;width:280px;transform:rotate(26deg)}
+  .cierre .hoja-fondo.b{right:auto;left:-60px;top:-40px;bottom:auto;width:220px;transform:rotate(-30deg);opacity:.05}
+  .js .preguntas .cabecera,.js .faq details{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .js .preguntas.visto .cabecera,.js .preguntas.visto .faq details{opacity:1;transform:none}
+  .js .preguntas .cabecera{transition-delay:.1s}
+  .js .faq details{transition-delay:calc(var(--i,0)*.09s + .25s)}
+  .js .cierre .wrap > *{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+  .js .cierre.visto .wrap > *{opacity:1;transform:none}
+  .js .cierre .wrap > :nth-child(1){transition-delay:.1s}
+  .js .cierre .wrap > :nth-child(2){transition-delay:.3s}
+  .js .cierre .wrap > :nth-child(3){transition-delay:.5s}
+  .js .cierre .wrap > :nth-child(4){transition-delay:.7s}
+  .js .cierre .arco-deco{opacity:0;transform:translateX(-50%) translateY(40px);transition:opacity 1.4s ease .3s,transform 1.6s cubic-bezier(.2,.7,.2,1) .3s}
+  .js .cierre.visto .arco-deco{opacity:1;transform:translateX(-50%)}
+  .js .cierre .hoja-fondo{opacity:0;transition:opacity 1.6s ease .4s}
+  .js .cierre.visto .hoja-fondo.a{opacity:.07;animation:mece 12s ease-in-out 2s infinite alternate}
+  .js .cierre.visto .hoja-fondo.b{opacity:.05;animation:mece 15s ease-in-out 2.4s infinite alternate-reverse}
   @media (max-width:1320px){.cierre .arco-deco{display:none}}
 
   /* Footer */
@@ -415,6 +434,8 @@
     *{scroll-behavior:auto!important}
     .hero-foto img,.marca-logo img,.subrayado path,.hero-texto .lugar,.hero h1,.hero-sub,.hero-cta,.confianza,.js .etapas.visto .brote,.js .etapas.visto .brote .crece{animation:none!important}
     .js .brote .crece{opacity:1}
+    .js .preguntas .cabecera,.js .faq details,.js .cierre .wrap > *,.js .cierre .hoja-fondo{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+    .js .cierre .arco-deco{opacity:1!important;transform:translateX(-50%)!important;transition:none!important}
     .js .sobre-grid .arco-marco,.js .sobre-grid .sobre-visual figcaption,.js .sobre-grid .sobre-texto > *,.js .formacion-bloque h3,.js .formacion li,.js .sobre-grid .sobre-marca,.js .sobre-grid .arco-marco::before,.js .sobre-grid .sobre-etiqueta::after{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
     .js .sobre-grid .arco-marco::before{opacity:.55!important}
     .btn,header,.nav-links,.enlace-sub{transition:none}
@@ -608,7 +629,7 @@
 </section>
 
 <!-- PREGUNTAS FRECUENTES -->
-<section id="preguntas" class="seccion preguntas">
+<section id="preguntas" class="seccion preguntas" data-v>
   <div class="wrap">
     <div class="cabecera"><h2>Preguntas <em>frecuentes.</em></h2><p>Lo que más me consultan antes de empezar. Si tu duda no está acá, escribime y te respondo.</p></div>
     <div class="faq">
@@ -624,7 +645,9 @@
 </section>
 
 <!-- CIERRE -->
-<section id="contacto" class="cierre">
+<section id="contacto" class="cierre" data-v>
+  <svg class="hoja-fondo a" viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>
+  <svg class="hoja-fondo b" viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>
   <div class="arco-deco" aria-hidden="true"></div>
   <div class="wrap">
     <h2><em>¿Empezamos?</em></h2>
@@ -848,6 +871,7 @@
   // Entradas al llegar a cada parte (una sola vez). Sin JS o con "reducir movimiento" todo se ve de entrada.
   document.querySelectorAll('.dibuja *').forEach(function(e){ e.setAttribute('pathLength', '1'); });
   document.querySelectorAll('.linea-tiempo li').forEach(function(li, i){ li.style.setProperty('--i', i); });
+  document.querySelectorAll('.faq details').forEach(function(d, i){ d.style.setProperty('--i', i); });
   var porVer = document.querySelectorAll('.linea-tiempo, [data-v]');
   var mostrar = function(el){ el.classList.add('visto'); };
   var reducir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
