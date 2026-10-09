@@ -102,6 +102,8 @@
   dialog::backdrop{background:rgba(10,32,24,.62);backdrop-filter:blur(3px)}
   dialog h2{font-size:1.7rem;color:var(--bosque);margin-bottom:.6rem}
   dialog p{font-size:.95rem}
+  dialog .dlg-priv{font-size:.84rem;margin-top:.7rem}
+  dialog .dlg-priv a{color:var(--bosque);border-bottom:1px solid var(--ocre)}
   #ts{margin:1.3rem 0 .4rem;min-height:70px;display:flex;justify-content:center}
   #adm-estado{font-size:.92rem;color:var(--tinta);min-height:1.4em;text-align:center}
   .dlg-acciones{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem}
@@ -332,6 +334,28 @@
   .js .visto .dibuja{opacity:1}
   .js .visto .dibuja *{stroke-dashoffset:0;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)}
 
+  /* Tu primera sesión */
+  .sesion{background:var(--blanco)}
+  .sesion .cabecera{margin-bottom:3rem}
+  .sesion .cabecera p{margin-top:1rem}
+  .sesion-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sesion-col{padding:0 2.4rem}
+  .sesion-col:first-child{padding-left:0}
+  .sesion-col:last-child{padding-right:0}
+  .sesion-col + .sesion-col{border-left:1px solid var(--linea)}
+  .sesion-col svg{width:30px;height:30px;stroke:var(--ocre);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1.1rem}
+  .sesion-col .tiempo{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:var(--ocre-texto);margin-bottom:.5rem}
+  .sesion-col h3{color:var(--bosque);margin-bottom:.6rem}
+  .sesion-col p{font-size:.98rem}
+  .nota-sesion{margin-top:3.2rem}
+  .js .sesion .cabecera,.js .sesion-col,.js .nota-sesion{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .js .sesion.visto .cabecera,.js .sesion.visto .sesion-col,.js .sesion.visto .nota-sesion{opacity:1;transform:none}
+  .js .sesion .cabecera{transition-delay:.1s}
+  .js .sesion-col:nth-child(1){transition-delay:.3s}
+  .js .sesion-col:nth-child(2){transition-delay:.45s}
+  .js .sesion-col:nth-child(3){transition-delay:.6s}
+  .js .nota-sesion{transition-delay:.8s}
+
   /* Cierre */
   .cierre{background:linear-gradient(180deg,var(--hoja),var(--bosque));color:var(--papel);text-align:center;position:relative;overflow:hidden;padding:7rem 0}
   .cierre .wrap{position:relative;z-index:2}
@@ -410,6 +434,9 @@
     .antes-grid{grid-template-columns:1fr;gap:2.4rem}
     .antes-col,.antes-col + .antes-col{padding:0;border-left:none}
     .antes-col + .antes-col{padding-top:2.4rem;border-top:1px solid var(--linea)}
+    .sesion-grid{grid-template-columns:minmax(0,1fr);gap:2.4rem}
+    .sesion-col,.sesion-col:first-child,.sesion-col:last-child{padding:0}
+    .sesion-col + .sesion-col{border-left:none;padding-top:2.4rem;border-top:1px solid var(--linea)}
     .seccion{padding:4.8rem 0}
     .datos dl{grid-template-columns:1fr 1fr}
     .datos .item{padding:1.3rem 1rem}
@@ -434,7 +461,7 @@
     *{scroll-behavior:auto!important}
     .hero-foto img,.marca-logo img,.subrayado path,.hero-texto .lugar,.hero h1,.hero-sub,.hero-cta,.confianza,.js .etapas.visto .brote,.js .etapas.visto .brote .crece{animation:none!important}
     .js .brote .crece{opacity:1}
-    .js .preguntas .cabecera,.js .faq details,.js .cierre .wrap > *,.js .cierre .hoja-fondo{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+    .js .sesion .cabecera,.js .sesion-col,.js .nota-sesion,.js .preguntas .cabecera,.js .faq details,.js .cierre .wrap > *,.js .cierre .hoja-fondo{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
     .js .cierre .arco-deco{opacity:1!important;transform:translateX(-50%)!important;transition:none!important}
     .js .sobre-grid .arco-marco,.js .sobre-grid .sobre-visual figcaption,.js .sobre-grid .sobre-texto > *,.js .formacion-bloque h3,.js .formacion li,.js .sobre-grid .sobre-marca,.js .sobre-grid .arco-marco::before,.js .sobre-grid .sobre-etiqueta::after{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
     .js .sobre-grid .arco-marco::before{opacity:.55!important}
@@ -594,6 +621,40 @@
   </div>
 </section>
 
+<!-- TU PRIMERA SESIÓN -->
+<section id="primera-sesion" class="seccion sesion" data-v>
+  <div class="wrap">
+    <div class="cabecera">
+      <h2>Tu primera sesión, <em>paso a paso.</em></h2>
+      <p>No hace falta llegar con todo claro. Esto es lo que podés esperar.</p>
+    </div>
+    <div class="sesion-grid">
+      <div class="sesion-col">
+        <svg class="dibuja" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM8.5 12h7M8.5 16h4"/></svg>
+        <div class="tiempo">Antes</div>
+        <h3>Llego conociéndote un poco</h3>
+        <p>Completás tu admisión y yo la leo con atención. Así sé qué te trae y no tenés que empezar de cero. El consentimiento informado te lo envío aparte, para que lo leas con tiempo.</p>
+      </div>
+      <div class="sesion-col">
+        <svg class="dibuja" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+        <div class="tiempo">Durante · 50 minutos</div>
+        <h3>Conversamos a tu ritmo</h3>
+        <p>Hablamos de tu historia y de lo que te trae. No hay respuestas correctas ni incorrectas, y podés hacerme todas las preguntas que tengas sobre cómo trabajo.</p>
+      </div>
+      <div class="sesion-col">
+        <svg class="dibuja" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>
+        <div class="tiempo">Al terminar</div>
+        <h3>Definimos cómo seguir</h3>
+        <p>Acordamos juntos qué te gustaría trabajar y cada cuánto vernos. Lo habitual es una sesión por semana, y vas a salir sabiendo qué sigue.</p>
+      </div>
+    </div>
+    <div class="urgencia nota-sesion">
+      <svg class="dibuja" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <p><b>Si la sesión es online</b> necesitás un celular o una computadora con conexión estable y un lugar donde puedas hablar con tranquilidad y sin interrupciones. Al coordinar tu primera sesión te confirmo cómo conectarnos.</p>
+    </div>
+  </div>
+</section>
+
 <!-- EL ESPACIO (se muestra solo si DATOS.fotos tiene imágenes) -->
 <section id="espacio" class="seccion espacio" hidden>
   <div class="wrap">
@@ -636,7 +697,7 @@
       <details><summary>¿Cómo es la primera sesión?</summary><div class="resp"><p>Antes de empezar completás tu admisión, así llego conociendo tu motivo de consulta. En la sesión conversamos sobre tu historia y lo que te trae, y definimos juntos cómo seguir.</p></div></details>
       <details><summary>¿Cuánto dura cada sesión y cada cuánto nos vemos?</summary><div class="resp"><p>Cada sesión dura 50 minutos y lo habitual es que sean una vez por semana.</p></div></details>
       <details><summary>¿Puedo hacer terapia online?</summary><div class="resp"><p>Sí. Atiendo online a personas de todo Paraguay y de cualquier país de habla hispana, por videollamada. La atención presencial es solo en Minga Guazú. La modalidad la definimos juntos al coordinar tu primera sesión.</p></div></details>
-      <details><summary>¿Mi información es confidencial?</summary><div class="resp"><p>Sí. Lo que completes en tu admisión y lo que conversemos en sesión queda bajo secreto profesional, y solo lo utilizo para tu atención. El consentimiento informado te lo envío aparte, una vez revisada tu admisión.</p></div></details>
+      <details><summary>¿Mi información es confidencial?</summary><div class="resp"><p>Sí. Lo que completes en tu admisión y lo que conversemos en sesión queda bajo secreto profesional, y solo lo utilizo para tu atención. El consentimiento informado te lo envío aparte, una vez revisada tu admisión. Podés leer el detalle en el <a class="enlace-sub" href="privacidad">aviso de privacidad</a>.</p></div></details>
       <details><summary>¿Cuánto cuesta una sesión?</summary><div class="resp"><p id="honorFaq">Los honorarios te los informo por WhatsApp cuando coordinamos tu agendamiento.</p></div></details>
       <details><summary>¿Qué pasa si no puedo asistir?</summary><div class="resp"><p>Avisame con al menos 3 horas de anticipación. Llegar a tiempo es un compromiso: tu espacio de sesión está reservado para vos.</p></div></details>
       <details><summary>¿Atendés a adolescentes o niños?</summary><div class="resp"><p>Atiendo a personas adultas, mayores de 18 años.</p></div></details>
@@ -672,6 +733,7 @@
     <div class="pie-links">
       <a href="mailto:psic.patriciachena@gmail.com">psic.patriciachena@gmail.com</a>
       <a href="https://instagram.com/patriciachena.psi" target="_blank" rel="noopener">Instagram @patriciachena.psi</a>
+      <a href="privacidad">Aviso de privacidad</a>
       <a href="https://core-1ut.pages.dev" target="_blank" rel="noopener">Acceso profesional</a>
     </div>
   </div>
@@ -681,6 +743,7 @@
 <dialog id="dlgAdmision" aria-labelledby="dlgTitulo">
   <h2 id="dlgTitulo">Completar mi admisión</h2>
   <p>Confirmá que sos una persona y te abro tu formulario privado. Solo lleva unos minutos.</p>
+  <p class="dlg-priv">Cómo cuido tus datos: <a href="privacidad" target="_blank" rel="noopener">aviso de privacidad</a>.</p>
   <div id="ts"></div>
   <div id="adm-estado" role="status" aria-live="polite"></div>
   <div class="dlg-acciones">
