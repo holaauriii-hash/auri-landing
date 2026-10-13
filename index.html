@@ -362,6 +362,7 @@
   .tarifa-etiqueta{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--ocre-texto);margin-bottom:1rem}
   .tarifa-texto h2{margin-bottom:1.3rem}
   .tarifa-texto p + p{margin-top:.9rem}
+  .tarifa-texto .tarifa-nota{font-size:.88rem;color:var(--ocre-texto);font-weight:500}
   .tarifa-tarjeta{background:var(--papel);border:1px solid var(--linea);border-radius:20px;padding:2.2rem 2.2rem 2rem;box-shadow:0 30px 50px -36px rgba(15,47,34,.45)}
   .tarifa-precio{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin-bottom:1.4rem;padding-bottom:1.3rem;border-bottom:1px solid var(--linea)}
   .tarifa-precio b{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,4vw,3rem);color:var(--bosque);line-height:1;letter-spacing:-.012em}
@@ -718,6 +719,7 @@
       <h2>La terapia, al alcance de <em>más personas.</em></h2>
       <p>Cuidar tu salud mental no debería depender de tu situación económica. Si hoy te resulta difícil sostener la tarifa habitual, podés postularte a una tarifa social.</p>
       <p>Evalúo cada caso de forma individual y confidencial. Postularte no te compromete a nada.</p>
+      <p class="tarifa-nota">Disponible para personas residentes en Paraguay.</p>
     </div>
     <div class="tarifa-tarjeta">
       <div class="tarifa-precio"><b id="tarifaNum"></b><span id="tarifaSub"></span></div>
@@ -728,7 +730,7 @@
       </ol>
       <div class="tarifa-acciones">
         <button type="button" class="btn btn-bosque" data-admision="tarifa" hidden>Postularme a la tarifa social</button>
-        <a class="enlace-sub" data-wa href="#contacto">Prefiero consultar por WhatsApp</a>
+        <a class="enlace-sub" data-wa data-wa-msg="Hola, quiero más información sobre la tarifa social." href="#contacto">Prefiero consultar por WhatsApp</a>
       </div>
     </div>
   </div>
@@ -744,7 +746,7 @@
       <details><summary>¿Puedo hacer terapia online?</summary><div class="resp"><p>Sí. Atiendo online a personas de todo Paraguay y de cualquier país de habla hispana, por videollamada. La atención presencial es solo en Minga Guazú. La modalidad la definimos juntos al coordinar tu primera sesión.</p></div></details>
       <details><summary>¿Mi información es confidencial?</summary><div class="resp"><p>Sí. Lo que completes en tu admisión y lo que conversemos en sesión queda bajo secreto profesional, y solo lo utilizo para tu atención. El consentimiento informado te lo envío aparte, una vez revisada tu admisión. Podés leer el detalle en el <a class="enlace-sub" href="privacidad">aviso de privacidad</a>.</p></div></details>
       <details><summary>¿Cuánto cuesta una sesión?</summary><div class="resp"><p id="honorFaq">Los honorarios te los informo por WhatsApp cuando coordinamos tu agendamiento.</p></div></details>
-      <details id="faqTarifa" hidden><summary>¿Existe una tarifa social?</summary><div class="resp"><p>Sí. Si la tarifa habitual no es posible para vos en este momento, podés postularte a una tarifa social de <span id="faqTarifaValor"></span>. Completás tu admisión, marcás esa opción y, si querés, contás brevemente tu situación. Evalúo cada caso de forma individual y confidencial. <a class="enlace-sub" href="#tarifa-social">Ver cómo postularme</a>.</p></div></details>
+      <details id="faqTarifa" hidden><summary>¿Existe una tarifa social?</summary><div class="resp"><p>Sí. Si la tarifa habitual no es posible para vos en este momento, podés postularte a una tarifa social de <span id="faqTarifaValor"></span>. Completás tu admisión, marcás esa opción y, si querés, contás brevemente tu situación. Está disponible para personas residentes en Paraguay. Evalúo cada caso de forma individual y confidencial. <a class="enlace-sub" href="#tarifa-social">Ver cómo postularme</a>.</p></div></details>
       <details><summary>¿Qué pasa si no puedo asistir?</summary><div class="resp"><p>Avisame con al menos 3 horas de anticipación. Llegar a tiempo es un compromiso: tu espacio de sesión está reservado para vos.</p></div></details>
       <details><summary>¿Atendés a adolescentes o niños?</summary><div class="resp"><p>Atiendo a personas adultas, mayores de 18 años.</p></div></details>
     </div>
@@ -831,9 +833,12 @@
   };
 
   // Botones de WhatsApp
-  var wa = 'https://wa.me/' + String(DATOS.whatsapp).replace(/\D/g, '') + '?text=' + encodeURIComponent(DATOS.mensaje);
+  var waBase = 'https://wa.me/' + String(DATOS.whatsapp).replace(/\D/g, '') + '?text=';
+  var wa = waBase + encodeURIComponent(DATOS.mensaje);
   document.querySelectorAll('[data-wa]').forEach(function(a){
-    a.href = wa; a.target = '_blank'; a.rel = 'noopener';
+    // Algunos botones traen su propio mensaje (data-wa-msg), por ejemplo el de tarifa social
+    a.href = a.dataset.waMsg ? waBase + encodeURIComponent(a.dataset.waMsg) : wa;
+    a.target = '_blank'; a.rel = 'noopener';
   });
 
   // Datos opcionales en la franja de atención
@@ -860,7 +865,8 @@
   if(hf && honor) hf.textContent = 'Cada sesión de 50 minutos tiene un valor de ' + honor.replace(' por sesión','') + (enParaguay ? '' : ' (el valor en dólares es aproximado)') + '. Por WhatsApp te informo las formas de pago cuando coordinamos tu agendamiento.';
 
   // Tarifa social (la sección y la pregunta frecuente quedan ocultas si no hay valor)
-  if(DATOS.tarifaSocial && DATOS.tarifaSocial.trim()){
+  // Solo para quienes visitan desde Paraguay (misma detección que usan los honorarios)
+  if(enParaguay && DATOS.tarifaSocial && DATOS.tarifaSocial.trim()){
     var tsPartes = DATOS.tarifaSocial.trim().split(/\s+por\s+/);
     document.getElementById('tarifaNum').textContent = tsPartes[0];
     document.getElementById('tarifaSub').textContent = tsPartes[1] ? 'por ' + tsPartes[1] : '';
