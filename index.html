@@ -281,8 +281,6 @@
   .enfoque-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:4.5rem;align-items:start}
   .enfoque .cabecera{margin-bottom:1.6rem}
   .enfoque-texto p + p{margin-top:1rem}
-  .serenia-icono{width:168px;margin:0 auto 2.2rem;border-radius:38px;overflow:hidden;box-shadow:0 26px 42px -26px rgba(15,47,34,.5)}
-  .serenia-icono img{display:block;width:100%;height:auto}
   .ficha{border-top:1px solid var(--ocre)}
   .ficha > div{padding:1.4rem 0;border-bottom:1px solid var(--linea)}
   .ficha dt{font-size:.74rem;color:var(--ocre-texto);font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.55rem}
@@ -357,6 +355,25 @@
   .js .sesion-col:nth-child(2){transition-delay:.45s}
   .js .sesion-col:nth-child(3){transition-delay:.6s}
   .js .nota-sesion{transition-delay:.8s}
+
+  /* Tarifa social */
+  .tarifa{background:var(--blanco)}
+  .tarifa-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:center}
+  .tarifa-etiqueta{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--ocre-texto);margin-bottom:1rem}
+  .tarifa-texto h2{margin-bottom:1.3rem}
+  .tarifa-texto p + p{margin-top:.9rem}
+  .tarifa-tarjeta{background:var(--papel);border:1px solid var(--linea);border-radius:20px;padding:2.2rem 2.2rem 2rem;box-shadow:0 30px 50px -36px rgba(15,47,34,.45)}
+  .tarifa-precio{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin-bottom:1.4rem;padding-bottom:1.3rem;border-bottom:1px solid var(--linea)}
+  .tarifa-precio b{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,4vw,3rem);color:var(--bosque);line-height:1;letter-spacing:-.012em}
+  .tarifa-precio span{font-size:.95rem;color:var(--tinta-suave)}
+  .tarifa-pasos{list-style:none;counter-reset:t;margin-bottom:1.7rem}
+  .tarifa-pasos li{counter-increment:t;position:relative;padding-left:2.1rem;font-size:.95rem;color:var(--tinta-suave);margin-bottom:.75rem}
+  .tarifa-pasos li::before{content:counter(t);position:absolute;left:0;top:.12em;width:1.35rem;height:1.35rem;border-radius:50%;border:1px solid var(--ocre);color:var(--ocre-texto);font-size:.74rem;font-weight:500;display:flex;align-items:center;justify-content:center}
+  .tarifa-acciones{display:flex;gap:1rem 1.4rem;align-items:center;flex-wrap:wrap}
+  .js .tarifa-texto,.js .tarifa-tarjeta{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .js .tarifa.visto .tarifa-texto,.js .tarifa.visto .tarifa-tarjeta{opacity:1;transform:none}
+  .js .tarifa-texto{transition-delay:.1s}
+  .js .tarifa-tarjeta{transition-delay:.35s}
 
   /* Cierre */
   .cierre{background:linear-gradient(180deg,var(--hoja),var(--bosque));color:var(--papel);text-align:center;position:relative;overflow:hidden;padding:7rem 0}
@@ -436,6 +453,8 @@
     .antes-grid{grid-template-columns:1fr;gap:2.4rem}
     .antes-col,.antes-col + .antes-col{padding:0;border-left:none}
     .antes-col + .antes-col{padding-top:2.4rem;border-top:1px solid var(--linea)}
+    .tarifa-grid{grid-template-columns:minmax(0,1fr);gap:2.4rem}
+    .tarifa-tarjeta{padding:1.8rem 1.5rem 1.6rem}
     .sesion-grid{grid-template-columns:minmax(0,1fr);gap:2.4rem}
     .sesion-col,.sesion-col:first-child,.sesion-col:last-child{padding:0}
     .sesion-col + .sesion-col{border-left:none;padding-top:2.4rem;border-top:1px solid var(--linea)}
@@ -463,7 +482,7 @@
     *{scroll-behavior:auto!important}
     .hero-foto img,.marca-logo img,.subrayado path,.hero-texto .lugar,.hero h1,.hero-sub,.hero-cta,.confianza,.js .etapas.visto .brote,.js .etapas.visto .brote .crece{animation:none!important}
     .js .brote .crece{opacity:1}
-    .js .sesion .cabecera,.js .sesion-col,.js .nota-sesion,.js .preguntas .cabecera,.js .faq details,.js .cierre .wrap > *,.js .cierre .hoja-fondo{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+    .js .tarifa-texto,.js .tarifa-tarjeta,.js .sesion .cabecera,.js .sesion-col,.js .nota-sesion,.js .preguntas .cabecera,.js .faq details,.js .cierre .wrap > *,.js .cierre .hoja-fondo{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
     .js .cierre .arco-deco{opacity:1!important;transform:translateX(-50%)!important;transition:none!important}
     .js .sobre-grid .arco-marco,.js .sobre-grid .sobre-visual figcaption,.js .sobre-grid .sobre-texto > *,.js .formacion-bloque h3,.js .formacion li,.js .sobre-grid .sobre-marca,.js .sobre-grid .arco-marco::before,.js .sobre-grid .sobre-etiqueta::after{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
     .js .sobre-grid .arco-marco::before{opacity:.55!important}
@@ -500,7 +519,6 @@
       <a class="enlace" href="#enfoque">Enfoque</a>
       <a class="enlace" href="#pasos">Cómo empezar</a>
       <a class="enlace" href="#antes">Antes de escribir</a>
-      <a class="enlace" href="#serenia">Serenia</a>
       <a class="enlace" href="#preguntas">Preguntas</a>
       <a class="btn btn-contorno" data-wa href="#contacto">Solicitar agendamiento</a>
     </div>
@@ -692,30 +710,26 @@
   </div>
 </section>
 
-<!-- SERENIA -->
-<section id="serenia" class="seccion serenia" data-v>
-  <div class="wrap enfoque-grid">
-    <div class="serenia-texto">
-      <div class="cabecera"><h2>Bienestar emocional, <em>cada día.</em></h2></div>
-      <p>Como psicóloga, siempre busqué formas de que el bienestar emocional sea parte de la rutina diaria y no solo de la sesión de terapia. Por eso creé Serenia: una app donde podés hacer un check-in de tu ánimo, escribir en tu diario y construir hábitos saludables, acompañada por un búho que celebra cada paso que das.</p>
-      <p>Serenia no reemplaza el acompañamiento profesional, pero es una herramienta pensada desde la psicología para sostener tu bienestar entre una sesión y otra.</p>
-      <div class="hero-cta">
-        <a class="btn btn-bosque" href="https://play.google.com/store/apps/details?id=app.vercel.sereniapp.twa" target="_blank" rel="noopener">Descargar en Google Play</a>
-      </div>
+<!-- TARIFA SOCIAL (se muestra solo si DATOS.tarifaSocial tiene valor) -->
+<section id="tarifa-social" class="seccion tarifa" data-v hidden>
+  <div class="wrap tarifa-grid">
+    <div class="tarifa-texto">
+      <div class="tarifa-etiqueta">Tarifa social</div>
+      <h2>La terapia, al alcance de <em>más personas.</em></h2>
+      <p>Cuidar tu salud mental no debería depender de tu situación económica. Si hoy te resulta difícil sostener la tarifa habitual, podés postularte a una tarifa social.</p>
+      <p>Evalúo cada caso de forma individual y confidencial. Postularte no te compromete a nada.</p>
     </div>
-    <div>
-    <figure class="serenia-icono"><img src="serenia-icono.png" alt="Ícono de Serenia, app de bienestar emocional" width="168" height="168" loading="lazy" decoding="async" /></figure>
-    <dl class="ficha">
-      <div><dt>Qué podés hacer</dt>
-        <dd><ul class="temas">
-          <li><svg viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>Check-in diario de tu ánimo</li>
-          <li><svg viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>Diario personal y privado</li>
-          <li><svg viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>Hábitos saludables, paso a paso</li>
-          <li><svg viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>Un búho que te acompaña</li>
-        </ul></dd>
+    <div class="tarifa-tarjeta">
+      <div class="tarifa-precio"><b id="tarifaNum"></b><span id="tarifaSub"></span></div>
+      <ol class="tarifa-pasos">
+        <li>Completás tu admisión y marcás la opción de tarifa social.</li>
+        <li>Si querés, contás brevemente tu situación.</li>
+        <li>Reviso tu solicitud y te respondo.</li>
+      </ol>
+      <div class="tarifa-acciones">
+        <button type="button" class="btn btn-bosque" data-admision="tarifa" hidden>Postularme a la tarifa social</button>
+        <a class="enlace-sub" data-wa href="#contacto">Prefiero consultar por WhatsApp</a>
       </div>
-      <div><dt>Disponible en</dt><dd>Google Play, gratis</dd></div>
-    </dl>
     </div>
   </div>
 </section>
@@ -730,6 +744,7 @@
       <details><summary>¿Puedo hacer terapia online?</summary><div class="resp"><p>Sí. Atiendo online a personas de todo Paraguay y de cualquier país de habla hispana, por videollamada. La atención presencial es solo en Minga Guazú. La modalidad la definimos juntos al coordinar tu primera sesión.</p></div></details>
       <details><summary>¿Mi información es confidencial?</summary><div class="resp"><p>Sí. Lo que completes en tu admisión y lo que conversemos en sesión queda bajo secreto profesional, y solo lo utilizo para tu atención. El consentimiento informado te lo envío aparte, una vez revisada tu admisión. Podés leer el detalle en el <a class="enlace-sub" href="privacidad">aviso de privacidad</a>.</p></div></details>
       <details><summary>¿Cuánto cuesta una sesión?</summary><div class="resp"><p id="honorFaq">Los honorarios te los informo por WhatsApp cuando coordinamos tu agendamiento.</p></div></details>
+      <details id="faqTarifa" hidden><summary>¿Existe una tarifa social?</summary><div class="resp"><p>Sí. Si la tarifa habitual no es posible para vos en este momento, podés postularte a una tarifa social de <span id="faqTarifaValor"></span>. Completás tu admisión, marcás esa opción y, si querés, contás brevemente tu situación. Evalúo cada caso de forma individual y confidencial. <a class="enlace-sub" href="#tarifa-social">Ver cómo postularme</a>.</p></div></details>
       <details><summary>¿Qué pasa si no puedo asistir?</summary><div class="resp"><p>Avisame con al menos 3 horas de anticipación. Llegar a tiempo es un compromiso: tu espacio de sesión está reservado para vos.</p></div></details>
       <details><summary>¿Atendés a adolescentes o niños?</summary><div class="resp"><p>Atiendo a personas adultas, mayores de 18 años.</p></div></details>
     </div>
@@ -808,6 +823,7 @@
     fotos: [],        // fotos del consultorio, junto a index.html. ej: ['consultorio-1.jpg', 'consultorio-2.jpg', 'consultorio-3.jpg']
     honorarios: 'Gs 150.000 por sesión',     // se muestra a quien visita desde Paraguay
     honorariosExterior: 'US$ 20 por sesión', // se muestra a quien visita desde otro país (valor aproximado en dólares)
+    tarifaSocial: 'Gs 70.000 por sesión',    // tarifa social (deja '' para ocultar la sección y la pregunta frecuente)
 
     // Botón "Completar mi admisión". Mientras estos dos estén vacíos, el botón no se muestra.
     admisionFuncion:  'https://eqgkelepbznnemweczhc.supabase.co/functions/v1/solicitar-admision',  // URL de la función: https://TU-PROYECTO.supabase.co/functions/v1/solicitar-admision
@@ -842,6 +858,16 @@
   dato('Honorarios', honor);
   var hf = document.getElementById('honorFaq');
   if(hf && honor) hf.textContent = 'Cada sesión de 50 minutos tiene un valor de ' + honor.replace(' por sesión','') + (enParaguay ? '' : ' (el valor en dólares es aproximado)') + '. Por WhatsApp te informo las formas de pago cuando coordinamos tu agendamiento.';
+
+  // Tarifa social (la sección y la pregunta frecuente quedan ocultas si no hay valor)
+  if(DATOS.tarifaSocial && DATOS.tarifaSocial.trim()){
+    var tsPartes = DATOS.tarifaSocial.trim().split(/\s+por\s+/);
+    document.getElementById('tarifaNum').textContent = tsPartes[0];
+    document.getElementById('tarifaSub').textContent = tsPartes[1] ? 'por ' + tsPartes[1] : '';
+    document.getElementById('faqTarifaValor').textContent = DATOS.tarifaSocial.trim();
+    document.getElementById('tarifa-social').hidden = false;
+    document.getElementById('faqTarifa').hidden = false;
+  }
 
   // Fotos del consultorio (la sección queda oculta si no hay)
   if(DATOS.fotos && DATOS.fotos.length){
@@ -908,6 +934,9 @@
     var estado = document.getElementById('adm-estado');
     var botonWA = document.getElementById('adm-wa');
     var widgetId = null;
+    var modoTarifa = false;   // true cuando la persona entra por "Postularme a la tarifa social"
+    var tituloDlg = document.getElementById('dlgTitulo');
+    var tituloBase = tituloDlg.textContent;
 
     var s = document.createElement('script');
     s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
@@ -931,7 +960,11 @@
         return r.json().then(function(j){ return {ok: r.ok, status: r.status, j: j}; });
       }).then(function(res){
         if(res.ok && res.j && typeof res.j.url === 'string' && res.j.url.indexOf('https://') === 0){
-          window.location.href = res.j.url;
+          var destino = res.j.url;
+          if(modoTarifa){
+            try{ var u = new URL(destino); u.searchParams.set('tarifa', 'social'); destino = u.toString(); }catch(e){}
+          }
+          window.location.href = destino;
         } else if(res.status === 429){
           fallo('Hay muchas solicitudes en este momento. Escribime por WhatsApp y te envío el formulario.');
         } else {
@@ -945,6 +978,8 @@
     document.querySelectorAll('[data-admision]').forEach(function(btn){
       btn.hidden = false;
       btn.addEventListener('click', function(){
+        modoTarifa = btn.getAttribute('data-admision') === 'tarifa';
+        tituloDlg.textContent = modoTarifa ? 'Postularme a la tarifa social' : tituloBase;
         estado.textContent = ''; botonWA.hidden = true;
         dlg.showModal();
         if(!window.turnstile){ fallo('No se pudo cargar la verificación. Escribime por WhatsApp.'); return; }
