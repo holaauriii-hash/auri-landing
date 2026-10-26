@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Test gratuito: ¿cómo estuviste esta semana? | Patricia Chena, Psicóloga</title>
+<meta name="description" content="Cuestionario gratuito y confidencial (DASS-21) para conocer cómo estuvieron tu ánimo, tu ansiedad y tu estrés durante la última semana. Resultado al instante, sin guardar tus respuestas." />
+<meta name="theme-color" content="#F6F2E9" />
+<link rel="icon" href="marca.png" />
+<link rel="canonical" href="https://psipatriciachena.com/test-estado-animo" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--papel:#F6F2E9;--papel-hondo:#EEE8DA;--blanco:#FFFDF8;--bosque:#0F2F22;--bosque-hondo:#0A2018;--hoja:#1E422A;--arena:#D2AE8A;--ocre:#A2722A;--ocre-texto:#7A5518;--tinta:#14271E;--tinta-suave:#3F4D45;--linea:rgba(20,39,30,.16);--serif:'Newsreader',Georgia,serif;--sans:'Jost',system-ui,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--tinta);background:var(--papel);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  .wrap{width:min(720px,90vw);margin:0 auto}
+  header{padding:1.4rem 0;border-bottom:1px solid var(--linea)}
+  .nav{width:min(1120px,90vw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .logo{display:flex;align-items:center;gap:.85rem;text-decoration:none}
+  .logo img{height:42px;width:auto}
+  .marca{display:flex;flex-direction:column;line-height:1.1}
+  .marca b{font-weight:300;font-size:1rem;letter-spacing:.3em;color:var(--bosque);text-transform:uppercase}
+  .marca span{font-weight:500;font-size:.58rem;letter-spacing:.45em;color:var(--ocre-texto);text-transform:uppercase;margin-top:.3rem}
+  .volver{font-size:.92rem;color:var(--bosque);border-bottom:1px solid var(--ocre);padding-bottom:2px;text-decoration:none;white-space:nowrap}
+  main{padding:3.5rem 0 5rem}
+  .etiqueta{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--ocre-texto);margin-bottom:1rem}
+  h1,h2{font-family:var(--serif);font-weight:300;line-height:1.12;color:var(--bosque);text-wrap:balance}
+  h1{font-size:clamp(2.1rem,5vw,3.2rem);margin-bottom:1.1rem}
+  h1 em{font-style:italic;color:var(--hoja)}
+  h2{font-size:1.6rem;font-weight:400;margin:2rem 0 .7rem}
+  p{color:var(--tinta-suave);margin-bottom:1rem;text-wrap:pretty}
+  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:500;font-size:.95rem;padding:.9rem 1.8rem;border-radius:999px;border:1px solid transparent;background:transparent;cursor:pointer;text-decoration:none;transition:background .25s,color .25s}
+  .btn-bosque{background:var(--bosque);color:var(--papel)}
+  .btn-bosque:hover{background:var(--hoja)}
+  .btn-contorno{border-color:var(--bosque);color:var(--bosque)}
+  .btn-contorno:hover{background:var(--bosque);color:var(--papel)}
+  .btn[disabled]{opacity:.45;cursor:default}
+  .aviso{background:var(--papel-hondo);border-left:3px solid var(--ocre);padding:1rem 1.2rem;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.95rem}
+  .aviso p{margin:0}
+  .aviso.crisis{background:#F3E5D6;border-left-color:#8A3B12}
+  .aviso.crisis p{color:var(--tinta)}
+  .progreso{height:4px;background:var(--linea);border-radius:4px;margin:1.6rem 0 1.2rem;overflow:hidden}
+  .progreso i{display:block;height:100%;width:0;background:var(--bosque);transition:width .3s}
+  .paso{font-size:.85rem;color:var(--ocre-texto);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6rem}
+  .pregunta{font-family:var(--serif);font-size:clamp(1.4rem,3.4vw,1.8rem);line-height:1.3;color:var(--bosque);margin-bottom:1.4rem;min-height:3.6em}
+  .opciones{display:grid;gap:.6rem}
+  .op{display:block;width:100%;text-align:left;font:inherit;color:var(--tinta);background:var(--blanco);border:1px solid var(--linea);border-radius:12px;padding:.95rem 1.1rem;cursor:pointer;transition:border-color .2s,background .2s}
+  .op:hover{border-color:var(--bosque)}
+  .op.sel{border-color:var(--bosque);background:#E8EFE6}
+  .acciones{display:flex;gap:.8rem;margin-top:1.6rem;flex-wrap:wrap}
+  .tarjetas{display:grid;gap:.8rem;margin:1.4rem 0}
+  .tarjeta{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:1.1rem 1.3rem}
+  .tarjeta h3{font-family:var(--serif);font-weight:400;font-size:1.25rem;color:var(--bosque)}
+  .tarjeta .nivel{font-weight:500;color:var(--ocre-texto);margin-bottom:.3rem}
+  .barra{height:8px;background:var(--papel-hondo);border-radius:6px;overflow:hidden;margin:.5rem 0}
+  .barra i{display:block;height:100%;background:var(--bosque)}
+  .oculto{display:none}
+  footer{background:var(--bosque-hondo);color:rgba(246,242,233,.7);padding:2rem 0;text-align:center;font-size:.88rem}
+  footer a{border-bottom:1px solid rgba(210,174,138,.5);text-decoration:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <a class="logo" href="./" aria-label="Patricia Chena, Psicóloga. Volver al inicio"><img src="marca.png" alt="" width="46" height="42" /><div class="marca"><b>Patricia Chena</b><span>Psicóloga</span></div></a>
+  <a class="volver" href="./">Volver al inicio</a>
+</div></header>
+
+<main><div class="wrap">
+
+<section id="portada">
+  <p class="etiqueta">Test gratuito · 3 minutos</p>
+  <h1>¿Cómo estuviste <em>esta semana?</em></h1>
+  <p>Son 21 frases sobre cómo te sentiste durante la <b>última semana</b>. Al final vas a ver una lectura de tu estado de ánimo, tu ansiedad y tu estrés, y qué podés hacer con ese resultado.</p>
+  <div class="aviso"><p><b>Tus respuestas no se guardan ni se envían a ningún lado.</b> El resultado se calcula en tu propio dispositivo y desaparece al cerrar la página.</p></div>
+  <div class="aviso"><p>Es un cuestionario de orientación (DASS-21). <b>No es un diagnóstico</b> ni reemplaza una evaluación con una psicóloga.</p></div>
+  <div class="acciones"><button class="btn btn-bosque" id="empezar">Empezar el test</button></div>
+</section>
+
+<section id="test" class="oculto" aria-live="polite">
+  <div class="progreso" role="progressbar" aria-valuemin="0" aria-valuemax="21" aria-valuenow="0" id="prog"><i id="progI"></i></div>
+  <p class="paso" id="paso"></p>
+  <p class="pregunta" id="pregunta"></p>
+  <div class="opciones" id="opciones" role="radiogroup" aria-label="Cuánto te ocurrió durante la última semana"></div>
+  <div class="acciones"><button class="btn btn-contorno" id="atras">Atrás</button></div>
+</section>
+
+<section id="resultado" class="oculto" aria-live="polite">
+  <p class="etiqueta">Tu resultado</p>
+  <h1 id="resTitulo">Cómo estuviste <em>esta semana</em></h1>
+  <div class="aviso crisis oculto" id="avisoCrisis"><p id="textoCrisis"></p></div>
+  <div class="tarjetas" id="tarjetas"></div>
+  <p id="lecturaGlobal"></p>
+  <div class="aviso"><p>Este resultado describe solo la última semana y es una orientación, <b>no un diagnóstico</b>. Si algo de esto te pesa, vale la pena conversarlo con una profesional.</p></div>
+  <div class="acciones">
+    <a class="btn btn-bosque" id="wa" data-evento="clic_whatsapp_test" target="_blank" rel="noopener" href="#">Quiero conversar con Patricia</a>
+    <button class="btn btn-contorno" id="repetir">Volver a hacer el test</button>
+  </div>
+</section>
+
+</div></main>
+
+<footer><div class="wrap">Patricia Chena, Psicóloga · <a href="./">Inicio</a> · <a href="privacidad">Aviso de privacidad</a></div></footer>
+
+<script src="metricas.js"></script>
+<script>
+(function(){
+  var ITEMS = ["Me costó mucho relajarme", "Me di cuenta de que tenía la boca seca", "No podía sentir ningún sentimiento positivo", "Se me hizo difícil respirar", "Se me hizo difícil tomar la iniciativa para hacer cosas", "Reaccioné exageradamente en ciertas situaciones", "Sentí que mis manos temblaban", "He sentido que estaba gastando una gran cantidad de energía", "Estaba preocupado/a por situaciones en las cuales podía tener pánico o en las que podría hacer el ridículo", "He sentido que no había nada que me ilusionara", "Me he sentido inquieto/a", "Se me hizo difícil relajarme", "Me sentí triste y deprimido/a", "No toleré nada que no me permitiera continuar con lo que estaba haciendo", "Sentí que estaba al punto de pánico", "No me pude entusiasmar por nada", "Sentí que valía muy poco como persona", "He tendido a sentirme enfadado/a con facilidad", "Sentí los latidos de mi corazón a pesar de no haber hecho ningún esfuerzo físico", "Tuve miedo sin razón", "Sentí que la vida no tenía ningún sentido"];
+  var OPCIONES = ['No me ocurrió','Me ocurrió un poco, o parte del tiempo','Me ocurrió bastante, o buena parte del tiempo','Me ocurrió mucho, o la mayor parte del tiempo'];
+  // Claves de corrección del DASS-21 (Lovibond & Lovibond, 1995). Ítems numerados del 1 al 21.
+  var DEP=[3,5,10,13,16,17,21], ANS=[2,4,7,9,15,19,20], EST=[1,6,8,11,12,14,18];
+  var NIVELES=['Normal','Leve','Moderada','Grave','Extremadamente grave'];
+  var CORTES={dep:[9,13,20,27], ans:[7,9,14,19], est:[14,18,25,33]};
+  var WA='595981887409';
+  var resp=[], i=0, empezado=false;
+  var $=function(id){return document.getElementById(id);};
+  function suma(lista){return lista.reduce(function(a,n){return a+(resp[n-1]||0);},0)*2;}
+  function nivel(p,c){var k=0;for(var j=0;j<c.length;j++){if(p>c[j])k=j+1;}return NIVELES[k];}
+  // Frases por área y nivel: orientación, sin lenguaje diagnóstico.
+  var TEXTOS={
+    dep:{'Normal':'Tu ánimo estuvo dentro de lo esperado esta semana.','Leve':'Hubo algo de desánimo o poco interés. Puede ser pasajero; mirá si se sostiene.','Moderada':'El desánimo o la falta de ilusión estuvo bastante presente. Conviene conversarlo con alguien.','Grave':'El desánimo estuvo muy presente. Te recomiendo consultar con una profesional.','Extremadamente grave':'El desánimo estuvo muy intenso. Te recomiendo consultar pronto con una profesional.'},
+    ans:{'Normal':'Tu nivel de ansiedad estuvo dentro de lo esperado.','Leve':'Hubo algunas señales de ansiedad (tensión, inquietud). Observá si se repiten.','Moderada':'La ansiedad estuvo bastante presente y puede estar afectando tus días.','Grave':'La ansiedad estuvo muy presente. Te recomiendo consultar con una profesional.','Extremadamente grave':'La ansiedad estuvo muy intensa. Te recomiendo consultar pronto con una profesional.'},
+    est:{'Normal':'Tu nivel de estrés estuvo dentro de lo esperado.','Leve':'Hubo algo de tensión o irritabilidad. Fijate si hay algo que se pueda aliviar.','Moderada':'El estrés estuvo bastante presente; vale la pena revisar qué lo sostiene.','Grave':'El estrés estuvo muy presente. Te recomiendo consultar con una profesional.','Extremadamente grave':'El estrés estuvo muy intenso. Te recomiendo consultar pronto con una profesional.'}
+  };
+  function ev(n){try{if(window.auriEvento)window.auriEvento(n);}catch(e){}}
+  function mostrar(id){['portada','test','resultado'].forEach(function(s){$(s).classList.toggle('oculto',s!==id);});window.scrollTo(0,0);}
+  function pintar(){
+    $('paso').textContent='Pregunta '+(i+1)+' de '+ITEMS.length;
+    $('pregunta').textContent=ITEMS[i];
+    $('progI').style.width=(i/ITEMS.length*100)+'%';
+    $('prog').setAttribute('aria-valuenow',i);
+    var cont=$('opciones'); cont.innerHTML='';
+    OPCIONES.forEach(function(t,v){
+      var b=document.createElement('button'); b.type='button'; b.className='op'+(resp[i]===v?' sel':'');
+      b.setAttribute('role','radio'); b.setAttribute('aria-checked',resp[i]===v?'true':'false');
+      b.textContent=t; b.onclick=function(){resp[i]=v; if(i<ITEMS.length-1){i++;pintar();}else{terminar();}};
+      cont.appendChild(b);
+    });
+    $('atras').disabled=i===0;
+  }
+  function terminar(){
+    var areas=[['Depresión (ánimo)','dep',suma(DEP)],['Ansiedad','ans',suma(ANS)],['Estrés','est',suma(EST)]];
+    var cont=$('tarjetas'); cont.innerHTML='';
+    var peor=0;
+    areas.forEach(function(a){
+      var niv=nivel(a[2],CORTES[a[1]]); peor=Math.max(peor,NIVELES.indexOf(niv));
+      var d=document.createElement('div'); d.className='tarjeta';
+      var h=document.createElement('h3'); h.textContent=a[0];
+      var n=document.createElement('p'); n.className='nivel'; n.textContent=niv+' · '+a[2]+' de 42';
+      var b=document.createElement('div'); b.className='barra'; var bi=document.createElement('i'); bi.style.width=Math.min(100,a[2]/42*100)+'%'; b.appendChild(bi);
+      var t=document.createElement('p'); t.style.margin='0'; t.textContent=TEXTOS[a[1]][niv];
+      d.appendChild(h); d.appendChild(n); d.appendChild(b); d.appendChild(t); cont.appendChild(d);
+    });
+    $('lecturaGlobal').textContent = peor===0
+      ? 'En conjunto, esta semana tus síntomas estuvieron dentro de lo esperado. Puede servirte repetir el test si algo cambia.'
+      : peor===1
+        ? 'En conjunto hay señales leves. Si se sostienen en el tiempo, conversarlo en terapia puede ayudarte a entenderlas.'
+        : 'En conjunto hay síntomas que conviene mirar con una profesional. Un primer paso puede ser escribirme y coordinar una primera sesión.';
+    // Ítem 21 ("la vida no tenía sentido") o resultado grave: mensaje de cuidado con recursos.
+    var cr=(resp[20]||0)>=1 || peor>=3;
+    $('avisoCrisis').classList.toggle('oculto',!cr);
+    if(cr){$('textoCrisis').innerHTML='<b>Si estás pasando por un momento muy difícil o pensaste en hacerte daño,</b> no tenés que atravesarlo solo/a. En Paraguay podés llamar a la <b>Línea 155 de Salud Mental</b> (gratuita) o al <b>911</b> si es una emergencia. También podés escribirme y te respondo.';}
+    $('wa').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Hola, hice el test de la web y quisiera conversar sobre mi resultado.');
+    $('progI').style.width='100%';
+    ev('test_fin');
+    mostrar('resultado');
+  }
+  $('empezar').onclick=function(){resp=[];i=0;if(!empezado){empezado=true;}ev('test_inicio');mostrar('test');pintar();};
+  $('atras').onclick=function(){if(i>0){i--;pintar();}};
+  $('repetir').onclick=function(){resp=[];i=0;mostrar('portada');};
+})();
+</script>
+</body>
+</html>
