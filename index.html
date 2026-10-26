@@ -573,7 +573,7 @@
   <nav class="nav wrap">
     <a href="#" class="marca-logo" aria-label="Patricia Chena, Psicóloga"><img src="marca.png" alt="" width="52" height="47" /><div class="marca"><b>Patricia Chena</b><span>Psicóloga</span></div></a>
     <div class="nav-links" id="navLinks">
-      <a class="enlace" href="#sobre-mi" id="navSobre" hidden>Sobre mí</a>
+      <a class="enlace" href="#sobre-mi" id="navSobre">Sobre mí</a>
       <a class="enlace" href="#enfoque">Enfoque</a>
       <a class="enlace" href="#pasos">Cómo empezar</a>
       <a class="enlace" href="#antes">Antes de escribir</a>
@@ -636,7 +636,7 @@
 </section>
 
 <!-- SOBRE MÍ (se muestra solo si DATOS.sobreMi tiene texto) -->
-<section id="sobre-mi" class="seccion sobre" hidden>
+<section id="sobre-mi" class="seccion sobre">
   <svg class="hoja-fondo a" viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>
   <svg class="hoja-fondo b" viewBox="0 0 120 300" aria-hidden="true"><use href="#hoja"/></svg>
   <div class="wrap">
@@ -650,13 +650,27 @@
       </figure>
       <div class="sobre-texto">
         <p class="sobre-etiqueta">Sobre mí</p>
-        <h2 id="sobreTitulo">Soy Patricia.</h2>
-        <div class="sobre-cuerpo" id="sobreTexto"></div>
+        <h2 id="sobreTitulo">Soy Patricia Chena, <em>psicóloga.</em></h2>
+        <div class="sobre-cuerpo" id="sobreTexto">
+          <p class="lead">Entiendo la terapia como un espacio para comprender lo que estás viviendo, desarrollar nuevas herramientas y avanzar hacia cambios que tengan sentido para vos.</p>
+          <p>Mi forma de trabajar combina un enfoque basado en evidencia científica con una mirada cercana, empática y personalizada. Cada proceso es diferente, por eso considero importante conocer tu historia, tus necesidades y tus objetivos para construir juntos un tratamiento que se adapte a vos.</p>
+          <p>Mi objetivo es que encuentres en terapia un espacio seguro, sin juicios y orientado al cambio, donde puedas trabajar aquello que hoy está afectando tu bienestar.</p>
+          <p class="firma">Si sentís que es momento de empezar, estoy acá para acompañarte. 🌿</p>
+        </div>
       </div>
     </div>
-    <div class="formacion-bloque" id="formacionBloque" data-v hidden>
+    <div class="formacion-bloque" id="formacionBloque" data-v>
       <h3>Formación y trayectoria</h3>
-      <ul class="formacion" id="sobreFormacion"></ul>
+      <ul class="formacion" id="sobreFormacion">
+        <li style="--i:0"><span class="num">01</span><div><b>Licenciatura en Psicología</b><small>Universidad Nacional del Este (UNE) · 2017</small></div></li>
+        <li style="--i:1"><span class="num">02</span><div><b>Especialización en Psicología Clínica</b><small>UNE · 2021 – 2026</small></div></li>
+        <li style="--i:2"><span class="num">03</span><div><b>Diplomado en Terapia Basada en la Evidencia</b><small>Sensorium · 2024 – 2026</small></div></li>
+        <li style="--i:3"><span class="num">04</span><div><b>Diplomado en Psicodiagnóstico</b><small>UNE · 2026</small></div></li>
+        <li style="--i:4"><span class="num">05</span><div><b>Diplomado en Prevención, Evaluación e Inteligencia Integral en Adicciones</b><small>UNE · 2026</small></div></li>
+        <li style="--i:5"><span class="num">06</span><div><b>Especialización en Neurociencias y Cognición</b><small>Universidad Autónoma de Encarnación (UNAE) · 2020 – 2021</small></div></li>
+        <li style="--i:6"><span class="num">07</span><div><b>Especialización en Didáctica Universitaria</b><small>UNE · 2019</small></div></li>
+        <li style="--i:7"><span class="num">08</span><div><b>Ejercicio clínico independiente</b><small>Desde 2021 · Presencial y online</small></div></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -954,7 +968,8 @@
     document.getElementById('espacio').hidden = false;
   }
 
-  // Sobre mí (la sección queda oculta si no hay texto)
+  // Sobre mí. El HTML ya trae una copia estática (para buscadores); si DATOS.sobreMi está vacío se oculta.
+  if(!(DATOS.sobreMi && DATOS.sobreMi.trim())){ document.getElementById('sobre-mi').hidden = true; document.getElementById('navSobre').hidden = true; }
   if(DATOS.sobreMi && DATOS.sobreMi.trim()){
     var pars = DATOS.sobreMi.trim().split(/\n\s*\n/).map(function(x){ return x.trim(); });
     var tit = document.getElementById('sobreTitulo');
@@ -969,6 +984,7 @@
       } else { tit.textContent = primero; }
     }
     var cont = document.getElementById('sobreTexto');
+    cont.textContent = '';
     pars.forEach(function(par, i){
       var pp = document.createElement('p'); pp.textContent = par;
       if(i === 0 && pars.length > 2) pp.className = 'lead';
@@ -977,6 +993,7 @@
     });
     if(DATOS.formacion && DATOS.formacion.length){
       var ul = document.getElementById('sobreFormacion');
+      ul.textContent = '';
       DATOS.formacion.forEach(function(it, i){
         if(typeof it === 'string') it = {t: it, d: ''};
         var li = document.createElement('li'); li.style.setProperty('--i', i);
