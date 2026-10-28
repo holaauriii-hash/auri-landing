@@ -3,6 +3,9 @@
 (function () {
   var URL_EVENTOS = 'https://eqgkelepbznnemweczhc.supabase.co/functions/v1/registrar-evento';
   // Respeta "No rastrear" del navegador.
+  // Tampoco cuenta las pruebas locales (localhost / archivos abiertos desde el disco).
+  var h = location.hostname;
+  if (!h || h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || location.protocol === 'file:') { window.auriEvento = function () {}; return; }
   if (navigator.doNotTrack === '1' || window.doNotTrack === '1') { window.auriEvento = function () {}; return; }
   var sesion = '';
   try {
