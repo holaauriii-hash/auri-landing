@@ -31,5 +31,37 @@
     var a = e.target.closest && e.target.closest('[data-evento], [data-wa], a[href*="wa.me"], #btnAdmision, [data-admision]');
     if (!a) return;
     window.auriEvento(a.getAttribute('data-evento') || (a.matches('#btnAdmision, [data-admision]') ? 'clic_admision' : 'clic_whatsapp'));
+    // Además, desde qué parte de la página se hizo el clic (portada, cierre, tarifa social…)
+    var zona = a.closest('header') ? 'menu' : (a.closest('section[id]') ? a.closest('section[id]').id : (a.closest('.hero') ? 'portada' : (a.closest('.cierre') ? 'cierre' : (a.closest('#dlgAdmision') ? 'ventana' : 'otro'))));
+    window.auriEvento(('clic_' + (a.matches('[data-admision]') ? 'adm' : 'wa') + '_' + zona).replace(/[^a-z0-9_]/g, '_').slice(0, 40));
   });
+
+  // ── Más detalle, siempre anónimo ──
+  // Preguntas frecuentes abiertas: faq_1, faq_2… (orden en que aparecen en la página)
+  try {
+    var faqs = document.querySelectorAll('#preguntas details');
+    faqs.forEach(function (d, i) {
+      d.addEventListener('toggle', function () { if (d.open) window.auriEvento('faq_' + (i + 1)); });
+    });
+  } catch (e) {}
+  // Secciones vistas (una vez por visita): ver_sobre_mi, ver_pasos, ver_contacto…
+  try {
+    if ('IntersectionObserver' in window) {
+      var visto = {};
+      var io = new IntersectionObserver(function (items) {
+        items.forEach(function (it) {
+          if (!it.isIntersecting || visto[it.target.id]) return;
+          visto[it.target.id] = 1;
+          window.auriEvento(('ver_' + it.target.id).replace(/[^a-z0-9_]/g, '_').slice(0, 40));
+        });
+      }, { threshold: 0.4 });
+      document.querySelectorAll('main section[id], section[id]').forEach(function (sec) { io.observe(sec); });
+    }
+  } catch (e) {}
+  // Tiempo en la página: 30 y 90 segundos con la pestaña visible
+  try {
+    [30, 90].forEach(function (seg) {
+      setTimeout(function () { if (!document.hidden) window.auriEvento('tiempo_' + seg + 's'); }, seg * 1000);
+    });
+  } catch (e) {}
 })();
