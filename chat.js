@@ -40,7 +40,7 @@
   '#ac-txt{flex:1;resize:none;border:1px solid rgba(31,46,34,.25);border-radius:12px;padding:.5rem .7rem;font:400 16px Jost,system-ui,sans-serif;max-height:90px;background:#fff;color:#1F2E22}' +
   '#ac-env{border:0;border-radius:12px;background:#3F5440;color:#F2EFE4;padding:0 1rem;font:500 .9rem Jost,system-ui,sans-serif;cursor:pointer}#ac-env:disabled{opacity:.5}' +
   '#ac-reg{display:flex;flex-direction:column;gap:.5rem;background:#fff;border:1px solid rgba(31,46,34,.12);border-radius:14px;padding:.8rem}#ac-reg input{border:1px solid rgba(31,46,34,.25);border-radius:10px;padding:.55rem .7rem;font:400 16px Jost,system-ui,sans-serif;background:#fff;color:#1F2E22}#ac-reg button{border:0;border-radius:10px;background:#3F5440;color:#F2EFE4;padding:.6rem;font:500 .95rem Jost,system-ui,sans-serif;cursor:pointer}#ac-reg small{font-size:.75rem;color:#46563F}#ac-err{color:#9b2c1d;font-size:.8rem;min-height:1em}' +
-  '#ac-hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}' +
+  '#ac-fin{display:flex;justify-content:flex-end;padding:.3rem 1rem 0;background:#FFFDF8}#ac-fin button,#ac-nueva{background:none;border:0;color:#46563F;font:400 .78rem Jost,system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:.2rem 0}#ac-nueva{display:block;margin:.4rem auto;border:1px solid #3F5440;border-radius:999px;color:#3F5440;font-weight:500;font-size:.85rem;text-decoration:none;padding:.4rem .9rem;background:#fff}#ac-hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}' +
   '@media(max-width:700px){#ac-btn{bottom:calc(max(1rem,env(safe-area-inset-bottom,0px)) + 4rem)}#ac-panel{bottom:max(.5rem,env(safe-area-inset-bottom,0px));right:.5rem;width:calc(100vw - 1rem);height:calc(100dvh - 1rem)}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -50,7 +50,7 @@
     '<section id="ac-panel" role="dialog" aria-label="Chat con Patricia Chena"><div id="ac-cab"><div><b>Patricia Chena</b><small>Psicóloga · te respondo dentro de 24 h hábiles</small></div><button id="ac-x" type="button" aria-label="Cerrar">×</button></div>' +
     '<div id="ac-msgs" aria-live="polite"></div>' +
     '<div id="ac-aviso">Por favor no compartas datos clínicos ni sensibles por acá. Si es una urgencia, llamá al 911 o a la línea 155 de Salud Mental.</div>' +
-    '<form id="ac-form" hidden><input id="ac-hp" tabindex="-1" autocomplete="off" aria-hidden="true"><textarea id="ac-txt" rows="1" maxlength="1000" placeholder="Escribí tu mensaje…"></textarea><button id="ac-env" type="submit">Enviar</button></form></section>';
+    '<div id="ac-fin" hidden><button id="ac-terminar" type="button">Terminar conversación</button></div><form id="ac-form" hidden><input id="ac-hp" tabindex="-1" autocomplete="off" aria-hidden="true"><textarea id="ac-txt" rows="1" maxlength="1000" placeholder="Escribí tu mensaje…"></textarea><button id="ac-env" type="submit">Enviar</button></form></section>';
   document.body.appendChild(raiz);
 
   var $ = function(id){ return document.getElementById(id); };
@@ -73,7 +73,7 @@
     msgs.appendChild(q); msgs.scrollTop = msgs.scrollHeight;
   }
   function activarHumano(){
-    modoHumano = true; form.hidden = false;
+    modoHumano = true; form.hidden = false; mostrarFin(true);
     burbuja('ella', 'Dejame tu mensaje y te respondo por acá dentro de las próximas 24 h hábiles. Si querés que te contacte por otro medio, indicámelo en el mensaje.');
     txt.focus();
   }
@@ -92,7 +92,7 @@
   }
   function inicio(){
     msgs.innerHTML = '';
-    if(token){ modoHumano = true; form.hidden = false; burbuja('ella', 'Hola de nuevo. Podés seguir escribiendo por acá.'); cargar(); return; }
+    if(token){ modoHumano = true; form.hidden = false; mostrarFin(true); burbuja('ella', 'Hola de nuevo. Podés seguir escribiendo por acá.'); cargar(); return; }
     if(nombre && correo){ burbuja('ella', 'Hola, ' + nombre.split(' ')[0] + '. ¿En qué te puedo ayudar? Elegí una opción o escribime directamente.'); preguntas(); return; }
     burbuja('ella', 'Hola, soy Patricia 🌿 Para empezar, contame tu nombre y tu correo así puedo responderte.');
     registro();
@@ -114,11 +114,12 @@
     post({ accion: 'leer', token: token, desde: 0 }).then(function(d){
       if(d.vencida){ ls(KEY, null); ls(KEYID, null); token = ''; desde = 0; inicio(); return; }
       pintar(d.mensajes || []);
+      if(d.cerrada) cerradaPorPatricia();
     }).catch(function(){});
   }
   function sondear(){
     if(!abierto || !token) return;
-    post({ accion: 'leer', token: token, desde: desde }).then(function(d){ pintar((d.mensajes || []).filter(function(m){ return m.de !== 'visitante'; })); }).catch(function(){});
+    post({ accion: 'leer', token: token, desde: desde }).then(function(d){ pintar((d.mensajes || []).filter(function(m){ return m.de !== 'visitante'; })); if(d.cerrada) cerradaPorPatricia(); }).catch(function(){});
   }
   function enviar(e){
     e.preventDefault();
@@ -134,11 +135,34 @@
         if(!sondeo) sondeo = setInterval(sondear, 8000);
       } else if(d.error === 'datos'){
         ls('auri_chat_nombre', null); ls('auri_chat_correo', null); nombre = ''; correo = ''; form.hidden = true; inicio();
+      } else if(d.error === 'cerrada'){
+        cerradaPorPatricia();
       } else if(d.error === 'limite'){
         burbuja('sis', 'Se alcanzó el límite de mensajes por ahora. Podés escribirme por WhatsApp.');
       } else { burbuja('sis', 'No se pudo enviar. Probá de nuevo o escribime por WhatsApp.'); }
     }).catch(function(){ env.disabled = false; burbuja('sis', 'No se pudo enviar. Revisá tu conexión o escribime por WhatsApp.'); });
   }
+  function mostrarFin(v){ $('ac-fin').hidden = !v; }
+  function reiniciar(){
+    ls(KEY, null); ls(KEYID, null); token = ''; desde = 0; modoHumano = false;
+    if(sondeo){ clearInterval(sondeo); sondeo = null; }
+    form.hidden = true; mostrarFin(false); inicio();
+  }
+  function cerradaPorPatricia(){
+    if(sondeo){ clearInterval(sondeo); sondeo = null; }
+    form.hidden = true; mostrarFin(false);
+    if(msgs.querySelector('#ac-nueva')) return;
+    var b = document.createElement('button'); b.type = 'button'; b.id = 'ac-nueva'; b.textContent = 'Empezar una conversación nueva';
+    b.onclick = reiniciar; msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight;
+  }
+  $('ac-terminar').onclick = function(){
+    if(!window.confirm('¿Terminar la conversación? Se borrarán tus mensajes y tus datos.')) return;
+    var t = token; token = '';
+    if(t) post({ accion: 'cerrar', token: t }).catch(function(){});
+    ls('auri_chat_nombre', null); ls('auri_chat_correo', null); nombre = ''; correo = '';
+    reiniciar();
+    burbuja('sis', 'Conversación terminada. Tus datos fueron borrados. Gracias por escribir.');
+  };
   var sondeo = null;
   txt.addEventListener('input', function(){ txt.style.height = 'auto'; txt.style.height = Math.min(txt.scrollHeight, 90) + 'px'; });
   form.addEventListener('submit', enviar);
