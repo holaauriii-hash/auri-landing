@@ -3,9 +3,9 @@
   var API = 'https://eqgkelepbznnemweczhc.supabase.co/functions/v1/chat-web';
   var WA = 'https://wa.me/595981887409?text=' + encodeURIComponent('Hola Patricia, quisiera agendar una primera consulta.');
   var KEY = 'auri_chat_token', KEYID = 'auri_chat_desde';
-  var token = '', desde = 0, timer = null, abierto = false, modoHumano = false;
+  var nombre = '', correo = '', token = '', desde = 0, timer = null, abierto = false, modoHumano = false;
   function ls(k, v){ try{ if(v === undefined) return localStorage.getItem(k) || ''; if(v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); }catch(e){ return ''; } }
-  token = ls(KEY); desde = parseInt(ls(KEYID), 10) || 0;
+  token = ls(KEY); nombre = ls('auri_chat_nombre'); correo = ls('auri_chat_correo'); desde = parseInt(ls(KEYID), 10) || 0;
 
   var RESP = [
     { p: '¿Cuánto cuesta una sesión?', r: 'El valor es de Gs 200.000 por sesión (US$ 35 si nos escribís desde otro país). También hay una tarifa social de Gs 100.000 por sesión; podés postularte desde la sección correspondiente de esta página.' },
@@ -33,6 +33,7 @@
   '#ac-form{display:flex;gap:.5rem;padding:.6rem;border-top:1px solid rgba(31,46,34,.12);background:#FFFDF8}' +
   '#ac-txt{flex:1;resize:none;border:1px solid rgba(31,46,34,.25);border-radius:12px;padding:.5rem .7rem;font:400 16px Jost,system-ui,sans-serif;max-height:90px;background:#fff;color:#1F2E22}' +
   '#ac-env{border:0;border-radius:12px;background:#3F5440;color:#F2EFE4;padding:0 1rem;font:500 .9rem Jost,system-ui,sans-serif;cursor:pointer}#ac-env:disabled{opacity:.5}' +
+  '#ac-reg{display:flex;flex-direction:column;gap:.5rem;background:#fff;border:1px solid rgba(31,46,34,.12);border-radius:14px;padding:.8rem}#ac-reg input{border:1px solid rgba(31,46,34,.25);border-radius:10px;padding:.55rem .7rem;font:400 16px Jost,system-ui,sans-serif;background:#fff;color:#1F2E22}#ac-reg button{border:0;border-radius:10px;background:#3F5440;color:#F2EFE4;padding:.6rem;font:500 .95rem Jost,system-ui,sans-serif;cursor:pointer}#ac-reg small{font-size:.75rem;color:#46563F}#ac-err{color:#9b2c1d;font-size:.8rem;min-height:1em}' +
   '#ac-hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}' +
   '@media(max-width:700px){#ac-btn{bottom:calc(max(1rem,env(safe-area-inset-bottom,0px)) + 4rem)}#ac-panel{bottom:max(.5rem,env(safe-area-inset-bottom,0px));right:.5rem;width:calc(100vw - 1rem);height:calc(100dvh - 1rem)}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
@@ -70,11 +71,25 @@
     burbuja('ella', 'Dejame tu mensaje y te respondo por acá dentro de las próximas 24 h hábiles. Si querés que te contacte por otro medio, indicámelo en el mensaje.');
     txt.focus();
   }
+  function registro(){
+    var f = document.createElement('form'); f.id = 'ac-reg'; f.noValidate = true;
+    f.innerHTML = '<input id="ac-nom" type="text" placeholder="Tu nombre" autocomplete="name" maxlength="80" required><input id="ac-cor" type="email" placeholder="Tu correo electrónico" autocomplete="email" maxlength="120" required><div id="ac-err" role="alert"></div><button type="submit">Comenzar</button><small>Uso tu nombre y correo solo para responderte. Se borran a los 30 días.</small>';
+    f.onsubmit = function(e){
+      e.preventDefault();
+      var n = f.querySelector('#ac-nom').value.replace(/\s+/g, ' ').trim(), c = f.querySelector('#ac-cor').value.trim();
+      if(n.length < 2){ f.querySelector('#ac-err').textContent = 'Escribí tu nombre.'; return; }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c)){ f.querySelector('#ac-err').textContent = 'Revisá tu correo electrónico.'; return; }
+      nombre = n; correo = c; ls('auri_chat_nombre', n); ls('auri_chat_correo', c);
+      f.remove(); burbuja('yo', n); burbuja('ella', 'Gracias, ' + n.split(' ')[0] + '. ¿En qué te puedo ayudar?'); preguntas();
+    };
+    msgs.appendChild(f); msgs.scrollTop = msgs.scrollHeight;
+  }
   function inicio(){
     msgs.innerHTML = '';
     if(token){ modoHumano = true; form.hidden = false; burbuja('ella', 'Hola de nuevo. Podés seguir escribiendo por acá.'); cargar(); return; }
-    burbuja('ella', 'Hola, soy Patricia 🌿 ¿En qué te puedo ayudar? Elegí una opción o escribime directamente.');
-    preguntas();
+    if(nombre && correo){ burbuja('ella', 'Hola, ' + nombre.split(' ')[0] + '. ¿En qué te puedo ayudar? Elegí una opción o escribime directamente.'); preguntas(); return; }
+    burbuja('ella', 'Hola, soy Patricia 🌿 Para empezar, contame tu nombre y tu correo así puedo responderte.');
+    registro();
   }
   function post(cuerpo){
     return fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) }).then(function(r){ return r.json(); });
@@ -103,7 +118,7 @@
     e.preventDefault();
     var t = txt.value.trim(); if(!t) return;
     env.disabled = true;
-    post({ accion: 'enviar', token: token, texto: t, hp: $('ac-hp').value }).then(function(d){
+    post({ accion: 'enviar', token: token, nombre: nombre, correo: correo, texto: t, hp: $('ac-hp').value }).then(function(d){
       env.disabled = false;
       if(d.ok){
         if(!token){ token = d.token; ls(KEY, token); }
@@ -111,6 +126,8 @@
         txt.value = ''; txt.style.height = 'auto';
         if(!d.avisado && d.avisado !== undefined) burbuja('sis', 'Tu mensaje quedó guardado. Si es algo urgente, escribime por WhatsApp.');
         if(!sondeo) sondeo = setInterval(sondear, 8000);
+      } else if(d.error === 'datos'){
+        ls('auri_chat_nombre', null); ls('auri_chat_correo', null); nombre = ''; correo = ''; form.hidden = true; inicio();
       } else if(d.error === 'limite'){
         burbuja('sis', 'Se alcanzó el límite de mensajes por ahora. Podés escribirme por WhatsApp.');
       } else { burbuja('sis', 'No se pudo enviar. Probá de nuevo o escribime por WhatsApp.'); }
